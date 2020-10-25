@@ -35,12 +35,13 @@
 
 
 ### Document Structure:
-Document               | Description
---------------------   | --------------------
-README.md              | Text file that contains information about the project.
-.gitignore             | Contains the filetypes that will be excluded from the project repository.
- src/                  | Contains all the class files.
- resources/            | Contains images for the README  
+Document                 | Description
+--------------------     | --------------------
+README.md                | Text file that contains information about the project.
+.gitignore               | Contains the filetypes that will be excluded from the project repository.
+ src/                    | Contains all the class files.
+ docs/                   | Document directory that contains the design documents.
+ resources/              | Contains images for the README  
  HumanBenchmark.jar      | .jar file containing the program.
 
 ### Project Requirements
