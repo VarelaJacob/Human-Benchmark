@@ -34,6 +34,7 @@ public class MainGameLoop extends Application {
     }
 
     Button homeButton;
+    ScrollPane scroll;
     VBox numMemStart, verbMemStart, customStart;
     VBox reactionStart, aimStart, chimpStart, visualStart, typingStart;
 
@@ -48,7 +49,7 @@ public class MainGameLoop extends Application {
 
         BorderPane humanPane = createBorderPane();
 
-        ScrollPane scroll = new ScrollPane(humanPane);
+        scroll = new ScrollPane(humanPane);
         scroll.setFitToWidth(true);
 
         Scene scene = new Scene(new BorderPane(scroll), 1600, 900);
@@ -136,41 +137,49 @@ public class MainGameLoop extends Application {
         reactionStart = reactionGame.createVBox();
         reactionStart.setOnMouseClicked( ( e ) -> {
             border.setCenter(reactionGame.playGame());
+            scroll.setVvalue(0);
         });
 
         aimStart = aimTrainer.createVBox();
         aimStart.setOnMouseClicked( ( e ) -> {
             border.setCenter(aimTrainer.playGame());
+            scroll.setVvalue(0);
         });
 
         chimpStart = chimpTest.createVBox();
         chimpStart.setOnMouseClicked( ( e ) -> {
             border.setCenter(chimpTest.playGame());
+            scroll.setVvalue(0);
         });
 
         visualStart = visualMemory.createVBox();
         visualStart.setOnMouseClicked( e -> {
             border.setCenter(visualMemory.playGame());
+            scroll.setVvalue(0);
         });
 
         customStart = customGame.createVBox();
         customStart.setOnMouseClicked( e -> {
             border.setCenter(customGame.playGame());
+            scroll.setVvalue(0);
         });
 
         typingStart = typingTest.createVBox();
         typingStart.setOnMouseClicked( e -> {
             border.setCenter(typingTest.playGame());
+            scroll.setVvalue(0);
         });
         
         numMemStart = numberMemory.createVBox();
         numMemStart.setOnMouseClicked( e -> {
             border.setCenter(numberMemory.playGame());
+            scroll.setVvalue(0);
         });
 
         verbMemStart = verbalMemory.createVBox();
         verbMemStart.setOnMouseClicked( e -> {
             border.setCenter(verbalMemory.playGame());
+            scroll.setVvalue(0);
         });
 
 
@@ -178,7 +187,13 @@ public class MainGameLoop extends Application {
         gameRow2.getChildren().addAll(visualStart, customStart, typingStart);
         gameRow3.getChildren().addAll(numMemStart, verbMemStart);
 
-        vboxBottom.getChildren().addAll(gameRow1, gameRow2, gameRow3);
+        HBox hBoxSpacer1 = new HBox();
+        hBoxSpacer1.setMinHeight(20);
+
+        HBox hBoxSpacer2 = new HBox();
+        hBoxSpacer2.setMinHeight(20);
+
+        vboxBottom.getChildren().addAll(hBoxSpacer1, gameRow1, gameRow2, gameRow3, hBoxSpacer2);
 
         border.setTop(hboxTop);
         border.setCenter(vboxDefault);
