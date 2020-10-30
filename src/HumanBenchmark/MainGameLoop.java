@@ -62,7 +62,8 @@ public class MainGameLoop extends Application {
        
         ImageView iconView = new ImageView( new Image("file:resources/humanBenchmarkicon.png"));
 
-        ReactionTest reactionGame = new ReactionTest(); 
+        ReactionTest reactionGame = new ReactionTest();
+        AimTrainer   aimTrainer   = new AimTrainer();
 
         Label mainLabel = new Label("Human Benchmark");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD,70));
@@ -113,6 +114,7 @@ public class MainGameLoop extends Application {
         vboxBottom.setSpacing(20);
 
         HBox gameRow1 = new HBox();
+        gameRow1.setSpacing(25);
         gameRow1.setAlignment(Pos.CENTER);
 /*        HBox gameRow2 = new HBox();
         gameRow2.setAlignment(Pos.CENTER);
@@ -124,8 +126,10 @@ public class MainGameLoop extends Application {
             border.setCenter(reactionGame.playGame());
         });
 
+        aimStart = aimTrainer.createVBox();
 
-        gameRow1.getChildren().addAll(reactionStart/*, aimStart, chimpStart*/);
+
+        gameRow1.getChildren().addAll(reactionStart, aimStart/*, chimpStart*/);
 /*        gameRow2.getChildren().addAll(visualStart, customStart, typingStart);
         gameRow3.getChildren().addAll(numMemStart, verbMemStart);
 */
