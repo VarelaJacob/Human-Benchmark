@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 /**
  *************** To Do ***************
- * Add home button event handler
+ * Add home button-> Close all apps
  * Add get started button event handler
  */
 
@@ -33,6 +33,12 @@ public class MainGameLoop extends Application {
     }
 
     Button homeButton;
+    VBox numMemStart, verbMemStart, customStart;
+    VBox reactionStart, aimStart, chimpStart, visualStart, typingStart;
+
+    String BACKGROUNDBLUE  = "-fx-background-color: #2b86d1";
+    String BACKGROUNDGRAY  = "-fx-background-color: #e6e8f4";
+    String BACKGROUNDWHITE = "-fx-background-color: #FF0000";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -40,6 +46,7 @@ public class MainGameLoop extends Application {
         primaryStage.setTitle("Human Benchmark - Jacob Varela");
 
         BorderPane humanPane = createBorderPane();
+
         Scene scene = new Scene(humanPane, 1600, 900);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -47,6 +54,9 @@ public class MainGameLoop extends Application {
     }
 
     private BorderPane createBorderPane() {
+
+        Score highScores = new Score();
+        highScores.initializeScores();
 
         BorderPane border = new BorderPane();
        
@@ -67,8 +77,9 @@ public class MainGameLoop extends Application {
         
         VBox vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
-        vboxDefault.setStyle("-fx-background-color: #2b86d1");
+        vboxDefault.setStyle(BACKGROUNDBLUE);
         vboxDefault.setMaxHeight(550);
+        vboxDefault.setMinHeight(550);
         vboxDefault.setSpacing(30);
         vboxDefault.getChildren().addAll(iconView,mainLabel,subLabel,getStartedBtn);
         vboxDefault.setAlignment(Pos.CENTER);
@@ -85,16 +96,40 @@ public class MainGameLoop extends Application {
         });
 
         HBox hboxTop = new HBox();
-        hboxTop.setStyle("-fx-background-color: #e6e8f4;");
+        hboxTop.setStyle(BACKGROUNDGRAY);
         hboxTop.setPadding(new Insets(0, 0, 0, 20));
         hboxTop.setSpacing(20);
         hboxTop.getChildren().addAll(homeButton);
 
+        VBox vboxBottom = new VBox();
+        vboxBottom.setStyle(BACKGROUNDGRAY);
+        vboxBottom.setPrefHeight(500);
+        vboxBottom.setSpacing(20);
+
+        HBox gameRow1 = new HBox();
+        gameRow1.setAlignment(Pos.CENTER);
+/*        HBox gameRow2 = new HBox();
+        gameRow2.setAlignment(Pos.CENTER);
+        HBox gameRow3 = new HBox();
+        gameRow3.setAlignment(Pos.CENTER);
+*/
+        ReactionTest reactionGame = new ReactionTest(); 
+        reactionStart = reactionGame.createVBox(0);
+        reactionStart.setOnMouseClicked( ( e ) -> {
+            border.setCenter(reactionGame.playGame());
+        });
+
+
+        gameRow1.getChildren().addAll(reactionStart/*, aimStart, chimpStart*/);
+/*        gameRow2.getChildren().addAll(visualStart, customStart, typingStart);
+        gameRow3.getChildren().addAll(numMemStart, verbMemStart);
+*/
+        vboxBottom.getChildren().addAll(gameRow1);
+
         border.setTop(hboxTop);
         border.setCenter(vboxDefault);
+        border.setBottom(vboxBottom);
 
         return border;
     }
-
-    
 }

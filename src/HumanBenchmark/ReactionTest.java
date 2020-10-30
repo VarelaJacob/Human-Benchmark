@@ -24,6 +24,8 @@ public class ReactionTest {
     private int highScore;
 
     public VBox playGame(){
+
+        int status = 0;
         
         ImageView iconView = new ImageView( new Image("file:resources/humanBenchmarkicon.png"));
         ImageView redDots = new ImageView( new Image("file:resources/dotsRed.png"));
@@ -58,6 +60,7 @@ public class ReactionTest {
         vboxDefault.setAlignment(Pos.CENTER);
 
         vboxDefault.setOnMouseClicked( e -> {
+
             vboxDefault.getChildren().clear();
             vboxDefault.setStyle(BACKGROUNDRED);
             vboxDefault.getChildren().addAll(redDots, redLabel);
