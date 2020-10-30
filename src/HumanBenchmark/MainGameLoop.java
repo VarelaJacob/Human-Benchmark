@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -47,7 +48,10 @@ public class MainGameLoop extends Application {
 
         BorderPane humanPane = createBorderPane();
 
-        Scene scene = new Scene(humanPane, 1600, 900);
+        ScrollPane scroll = new ScrollPane(humanPane);
+        scroll.setFitToWidth(true);
+
+        Scene scene = new Scene(new BorderPane(scroll), 1600, 900);
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -64,6 +68,12 @@ public class MainGameLoop extends Application {
 
         ReactionTest reactionGame = new ReactionTest();
         AimTrainer   aimTrainer   = new AimTrainer();
+        ChimpTest chimpTest = new ChimpTest();
+        VisualMemory visualMemory = new VisualMemory();
+        CustomGame customGame = new CustomGame();
+        TypingTest typingTest = new TypingTest();
+        NumberMemory numberMemory = new NumberMemory();
+        VerbalMemory verbalMemory = new VerbalMemory();
 
         Label mainLabel = new Label("Human Benchmark");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD,70));
@@ -116,24 +126,59 @@ public class MainGameLoop extends Application {
         HBox gameRow1 = new HBox();
         gameRow1.setSpacing(25);
         gameRow1.setAlignment(Pos.CENTER);
-/*        HBox gameRow2 = new HBox();
+        HBox gameRow2 = new HBox();
         gameRow2.setAlignment(Pos.CENTER);
+        gameRow2.setSpacing(25);
         HBox gameRow3 = new HBox();
+        gameRow3.setSpacing(25);
         gameRow3.setAlignment(Pos.CENTER);
-*/
+
         reactionStart = reactionGame.createVBox();
         reactionStart.setOnMouseClicked( ( e ) -> {
             border.setCenter(reactionGame.playGame());
         });
 
         aimStart = aimTrainer.createVBox();
+        aimStart.setOnMouseClicked( ( e ) -> {
+            border.setCenter(aimTrainer.playGame());
+        });
+
+        chimpStart = chimpTest.createVBox();
+        chimpStart.setOnMouseClicked( ( e ) -> {
+            border.setCenter(chimpTest.playGame());
+        });
+
+        visualStart = visualMemory.createVBox();
+        visualStart.setOnMouseClicked( e -> {
+            border.setCenter(visualMemory.playGame());
+        });
+
+        customStart = customGame.createVBox();
+        customStart.setOnMouseClicked( e -> {
+            border.setCenter(customGame.playGame());
+        });
+
+        typingStart = typingTest.createVBox();
+        typingStart.setOnMouseClicked( e -> {
+            border.setCenter(typingTest.playGame());
+        });
+        
+        numMemStart = numberMemory.createVBox();
+        numMemStart.setOnMouseClicked( e -> {
+            border.setCenter(numberMemory.playGame());
+        });
+
+        verbMemStart = verbalMemory.createVBox();
+        verbMemStart.setOnMouseClicked( e -> {
+            border.setCenter(verbalMemory.playGame());
+        });
 
 
-        gameRow1.getChildren().addAll(reactionStart, aimStart/*, chimpStart*/);
-/*        gameRow2.getChildren().addAll(visualStart, customStart, typingStart);
+        gameRow1.getChildren().addAll(reactionStart, aimStart, chimpStart);
+        gameRow2.getChildren().addAll(visualStart, customStart, typingStart);
         gameRow3.getChildren().addAll(numMemStart, verbMemStart);
-*/
-        vboxBottom.getChildren().addAll(gameRow1);
+
+        vboxBottom.getChildren().addAll(gameRow1, gameRow2, gameRow3);
 
         border.setTop(hboxTop);
         border.setCenter(vboxDefault);
