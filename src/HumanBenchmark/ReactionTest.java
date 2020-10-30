@@ -144,7 +144,7 @@ public class ReactionTest {
         if(highScore == 0 ){
             this.highScore = scoreTime;
         }
-        else if(elapsedTime < highScore){
+        else if(scoreTime < highScore){
             this.highScore = scoreTime;
         }
         else {
