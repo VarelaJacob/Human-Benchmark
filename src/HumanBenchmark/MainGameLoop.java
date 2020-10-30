@@ -54,7 +54,8 @@ public class MainGameLoop extends Application {
 
         Scene scene = new Scene(new BorderPane(scroll), 1600, 900);
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.setMaximized(true);
+        primaryStage.show();        
 
     }
 
@@ -200,5 +201,8 @@ public class MainGameLoop extends Application {
         border.setBottom(vboxBottom);
 
         return border;
+    }
+
+    private void createbutton() {
     }
 }
