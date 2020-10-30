@@ -17,7 +17,42 @@ import javafx.scene.paint.Color;
  */
 public class AimTrainer {
     
+    String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
     private int highScore;
+    private boolean gameInProgress;
+    private long startTime, endTime, elapsedTime;
+
+    public VBox playGame() {
+
+        ImageView iconView = new ImageView(new Image("file:resources/targetIcon.png"));
+
+        Label mainLabel = new Label("Aim Trainer");
+        mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 70));
+        mainLabel.setTextFill(Color.web("#FFFFFF"));
+
+        Label subLabel1 = new Label("Hit 30 targets as quickly as you can.");
+        subLabel1.setFont(Font.font("Arial", 20));
+        subLabel1.setTextFill(Color.web("#FFFFFF"));
+
+        Label subLabel2 = new Label("Click the target above to begin.");
+        subLabel2.setFont(Font.font("Arial", 20));
+        subLabel2.setTextFill(Color.web("#FFFFFF"));
+
+        Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore));
+        scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
+        scoreLabel.setTextFill(Color.web("#FFFFFF"));
+
+        VBox vboxDefault = new VBox();
+        vboxDefault.setPadding(new Insets(10, 10, 10, 10));
+        vboxDefault.setStyle(BACKGROUNDBLUE);
+        vboxDefault.setMinHeight(550);
+        vboxDefault.setMaxHeight(550);
+        vboxDefault.setSpacing(30);
+        vboxDefault.getChildren().addAll(scoreLabel, mainLabel, iconView, subLabel1, subLabel2);
+        vboxDefault.setAlignment(Pos.CENTER);
+
+        return vboxDefault;
+    }
 
     /*
     private void updateScore() {
