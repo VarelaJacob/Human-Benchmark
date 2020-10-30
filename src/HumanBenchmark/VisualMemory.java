@@ -34,7 +34,7 @@ public class VisualMemory {
         subLabel1.setTextFill(Color.web("#FFFFFF"));
 
 
-        Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore));
+        Label scoreLabel = new Label("HighScore: Level " + String.valueOf(highScore));
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
         scoreLabel.setTextFill(Color.web("#FFFFFF"));
 

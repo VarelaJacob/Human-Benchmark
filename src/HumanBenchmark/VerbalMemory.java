@@ -42,7 +42,7 @@ public class VerbalMemory {
         subLabel3.setFont(Font.font("Arial", 20));
         subLabel3.setTextFill(Color.web("#FFFFFF"));
 
-        Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore));
+        Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore) + " word(s)");
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
         scoreLabel.setTextFill(Color.web("#FFFFFF"));      
 
