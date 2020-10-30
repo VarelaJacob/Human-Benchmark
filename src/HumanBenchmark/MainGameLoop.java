@@ -49,12 +49,7 @@ public class MainGameLoop extends Application {
     private BorderPane createBorderPane() {
 
         BorderPane border = new BorderPane();
-
-        HBox hboxTop = new HBox();
-        hboxTop.setStyle("-fx-background-color: #e6e8f4;");
-        hboxTop.setPadding(new Insets(0, 0, 0, 20));
-        hboxTop.setSpacing(20);
-        
+       
         ImageView iconView = new ImageView( new Image("file:resources/humanBenchmarkicon.png"));
 
         Label mainLabel = new Label("Human Benchmark");
@@ -76,23 +71,24 @@ public class MainGameLoop extends Application {
         vboxDefault.setMaxHeight(550);
         vboxDefault.setSpacing(30);
         vboxDefault.getChildren().addAll(iconView,mainLabel,subLabel,getStartedBtn);
-
         vboxDefault.setAlignment(Pos.CENTER);
-        
-        
 
         homeButton = new Button("Human Benchmark (home)");
         homeButton.setMinHeight(35);
         homeButton.setStyle("-fx-background-color: #f2f2f2");
         homeButton.setStyle("-fx-border-color: #000000");
-        hboxTop.getChildren().addAll(homeButton);/*
         homeButton.setOnAction(new EventHandler<ActionEvent>(){
-            
             @Override
             public void handle(ActionEvent event) {
-                
+                border.setCenter(vboxDefault);
             }
-        });*/
+        });
+
+        HBox hboxTop = new HBox();
+        hboxTop.setStyle("-fx-background-color: #e6e8f4;");
+        hboxTop.setPadding(new Insets(0, 0, 0, 20));
+        hboxTop.setSpacing(20);
+        hboxTop.getChildren().addAll(homeButton);
 
         border.setTop(hboxTop);
         border.setCenter(vboxDefault);
