@@ -23,7 +23,7 @@ public class CustomGame {
 
     public VBox playGame() {
 
-        ImageView iconView = new ImageView(new Image("file:resources/customIcon.png"));
+        ImageView iconView = new ImageView(new Image("file:resources/customIcon2.png"));
 
         Label mainLabel = new Label("Custom Test");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 50));
