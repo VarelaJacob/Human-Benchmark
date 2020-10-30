@@ -2,8 +2,9 @@ package HumanBenchmark;
 
 public class Score {
     
-    private int reactionScore, aimScore, chimpScore, visualScore;
+    private int aimScore, chimpScore, visualScore;
     private int customScore, typingScore, numMemScore, verbMemScore;
+    private long reactionScore;
 
     public void initializeScores(){
         this.reactionScore = 0;
@@ -16,11 +17,11 @@ public class Score {
         this.verbMemScore  = 0;
     }
 
-    public int getReactionScore(){
+    public long getReactionScore(){
         return reactionScore;
     }
 
-    public void setReactionScore(int newScore){
+    public void setReactionScore(long newScore){
         this.reactionScore = newScore;
     }
 
