@@ -62,6 +62,8 @@ public class MainGameLoop extends Application {
        
         ImageView iconView = new ImageView( new Image("file:resources/humanBenchmarkicon.png"));
 
+        ReactionTest reactionGame = new ReactionTest(); 
+
         Label mainLabel = new Label("Human Benchmark");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD,70));
         mainLabel.setTextFill(Color.web("#FFFFFF"));
@@ -74,6 +76,9 @@ public class MainGameLoop extends Application {
         getStartedBtn.setStyle("-fx-background-color: #ffd154");
         getStartedBtn.setPrefSize(145, 45);
         getStartedBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        getStartedBtn.setOnMouseClicked( ( e ) -> {
+            border.setCenter(reactionGame.playGame());
+        });
         
         VBox vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
@@ -92,6 +97,7 @@ public class MainGameLoop extends Application {
             @Override
             public void handle(ActionEvent event) {
                 border.setCenter(vboxDefault);
+                highScores.setReactionScore(reactionGame.getHighScore());
             }
         });
 
@@ -113,8 +119,7 @@ public class MainGameLoop extends Application {
         HBox gameRow3 = new HBox();
         gameRow3.setAlignment(Pos.CENTER);
 */
-        ReactionTest reactionGame = new ReactionTest(); 
-        reactionStart = reactionGame.createVBox(0);
+        reactionStart = reactionGame.createVBox();
         reactionStart.setOnMouseClicked( ( e ) -> {
             border.setCenter(reactionGame.playGame());
         });
