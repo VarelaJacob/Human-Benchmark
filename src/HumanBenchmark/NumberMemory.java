@@ -1,9 +1,11 @@
 package HumanBenchmark;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -12,6 +14,8 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.lang.Math;
 
 /**
@@ -19,11 +23,12 @@ import java.lang.Math;
  */
 public class NumberMemory {
     
+    String BACKGROUNDYELLOW = "-fx-background-color: #ffd154";
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
     private int highScore, currentScore;
     private Random rand = new Random();
-    private long magicNum;
-    private Label scoreLabel, subLabel1, subLabel2;
+    private long magicNum, currentNum;
+    private Label scoreLabel, subLabel1, subLabel2, mainLabel;
     private Button startTestBtn;
     private VBox vboxDefault;
 
@@ -31,7 +36,7 @@ public class NumberMemory {
 
         ImageView iconView = new ImageView(new Image("file:resources/numberIcon2.png"));
         
-        Label mainLabel = new Label("Number Memory");
+        mainLabel = new Label("Number Memory");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 50));
         mainLabel.setTextFill(Color.web("#FFFFFF"));
 
@@ -65,43 +70,109 @@ public class NumberMemory {
             this.currentScore = 1;
             magicNum = Math.abs(rand.nextLong());
 
-            flashNumber();
-
-            subLabel1.setText("What was the number?");
-            
+            flashNumber();           
 
         });
 
         return vboxDefault;
     }
 
-    /*
-    private void updateScore() {
+    private void updateHighScore() {
         if(highScore == 0 ){
-            this.highScore = scoreTime;
+            this.highScore = currentScore;
         }
-        else if(elapsedTime < highScore){
-            this.highScore = scoreTime;
+        else if(currentScore > highScore){
+            this.highScore = currentScore;
         }
         else {
             //do nothing.
         }
-    }*/
+    }
 
     private void flashNumber() {
-        int sleepTime;
-        long currentNum = magicNum;
+        currentNum = magicNum;
+        int sleepTime = 3000;
+
         for(int i=0; i < 19-currentScore; i++){
             currentNum = currentNum/10;
         }
-        System.out.println("MagicNum     = " + String.valueOf(magicNum));
-        System.out.println("currentNum   = " + String.valueOf(currentNum));
+
         Label numLabel = new Label(String.valueOf(currentNum));
         numLabel.setFont(Font.font("Arial", FontWeight.BOLD, 70));
         numLabel.setTextFill(Color.web("#FFFFFF"));
 
         vboxDefault.getChildren().clear();
         vboxDefault.getChildren().addAll(numLabel);
+
+        Timer gameTimer = new Timer();
+                gameTimer.schedule(new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        Platform.runLater(() ->{
+                            guessNumber();
+                        });
+                    }
+                },sleepTime);
+    }
+
+    private void guessNumber() {
+        subLabel1.setText("What was the Number?");
+        
+        TextField textBox = new TextField();
+        textBox.setAlignment(Pos.CENTER);
+        textBox.setFont(Font.font("Arial", 30));
+        textBox.setMinHeight(30);
+        textBox.setMaxWidth(200);
+
+        Button submitBtn = new Button("Submit");
+        submitBtn.setStyle(BACKGROUNDYELLOW);
+        submitBtn.setPrefSize(145, 45);
+        submitBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+
+        vboxDefault.getChildren().clear();
+        vboxDefault.getChildren().addAll(subLabel1, textBox, submitBtn);
+
+        submitBtn.setOnMouseClicked(e -> {
+            int input = -1;
+            try{
+                input = Integer.parseInt(textBox.getText());
+            } 
+            catch (NumberFormatException nfe) {
+                //do Nothing
+            }
+
+            if( input == currentNum){
+                this.currentScore = currentScore + 1;
+                completeLevel();
+            }
+            else{
+                subLabel1.setText("Number : " + String.valueOf(currentNum));
+                subLabel2.setText("Your Answer : " + String.valueOf(input));
+                startTestBtn.setText("Try Again");
+
+                vboxDefault.getChildren().clear();
+                vboxDefault.getChildren().addAll(subLabel1, subLabel2, startTestBtn);
+            }
+        });
+    }
+
+    private void completeLevel() {
+        updateHighScore();
+        subLabel1.setText("Number : " + String.valueOf(currentNum));
+        subLabel2.setText("Your Answer : " + String.valueOf(currentNum));
+        mainLabel.setText("Level " + String.valueOf(currentScore-1));
+
+        Button nextBtn = new Button("NEXT");
+        nextBtn.setStyle(BACKGROUNDYELLOW);
+        nextBtn.setPrefSize(145, 45);
+        nextBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+
+        vboxDefault.getChildren().clear();
+        vboxDefault.getChildren().addAll(subLabel1, subLabel2, mainLabel, nextBtn);
+        nextBtn.setOnMouseClicked(e -> {
+            flashNumber();
+        });
     }
 
     public int getHighScore() {
