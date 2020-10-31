@@ -16,51 +16,72 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * This is the class for the Reaction Test.
+ * The objective of this game is to click on the screen 
+ * once it turns green as fast as possible. The lower the score
+ * the better the reaction time. 
  * 
+ * @author Jacob Varela
  */
 public class ReactionTest {
 
+    // Global variables.
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
     String BACKGROUNDRED = "-fx-background-color: #ce2636";
     String BACKGROUNDGREEN = "-fx-background-color: #4bdb6a";
+    private long highScore, startTime, scoreTime, endTime, elapsedTime;
     private int sleepTime;
     private boolean gameInProgress;
-    private long highScore, startTime, scoreTime, endTime, elapsedTime;
-
+    
+    /**
+     * This method sets up the VBox that the user will see when they
+     * choose to play this game from the main screen.
+     * 
+     * @return VBox that describes how to play this game.
+     */
     public VBox playGame() {
 
+        // initialize gameState.
         gameInProgress = false;
 
+        // Various icons used during the animation.
         ImageView iconView = new ImageView(new Image("file:resources/humanBenchmarkicon.png"));
         ImageView redDots = new ImageView(new Image("file:resources/dotsRed.png"));
         ImageView greenDots = new ImageView(new Image("file:resources/dotsGreen.png"));
         ImageView clockIcon = new ImageView(new Image("file:resources/clockIcon.png"));
         ImageView exclamationIcon = new ImageView(new Image("file:resources/exclamationIcon.png"));
 
+        // Main label
         Label mainLabel = new Label("Reaction Time Test");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 70));
         mainLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Subtitle label #1
         Label subLabel1 = new Label("When the red box turns green, click as quickly as you can.");
         subLabel1.setFont(Font.font("Arial", 20));
         subLabel1.setTextFill(Color.web("#FFFFFF"));
 
+        // Subtitle label #2
         Label subLabel2 = new Label("Click anywhere to start.");
         subLabel2.setFont(Font.font("Arial", 20));
         subLabel2.setTextFill(Color.web("#FFFFFF"));
 
+        // Showcases this game's current high score.
         Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore) + " ms");
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
         scoreLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Tells the user to wait.
         Label redLabel = new Label("Wait for green");
         redLabel.setFont(Font.font("Arial", FontWeight.BOLD, 50));
         redLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Tells the user to click the screen.
         Label greenLabel = new Label("Click!");
         redLabel.setFont(Font.font("Arial", FontWeight.BOLD, 50));
         redLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Tells the user their reaction time in ms.
         Label timeLabel = new Label(String.valueOf(elapsedTime) + " ms");
         timeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 50));
         timeLabel.setTextFill(Color.web("#FFFFFF"));
@@ -86,6 +107,11 @@ public class ReactionTest {
         vboxDefault.getChildren().addAll(scoreLabel, iconView, mainLabel, subLabel1, subLabel2);
         vboxDefault.setAlignment(Pos.CENTER);
 
+        /* If the screen is clicked and a game is not in progress, then begin
+         * a timer and show a red screen for a random amount of time. Once the
+         * screen turns green identify how long the user took to react.
+         *
+         */
         vboxDefault.setOnMouseClicked(e -> {
 
             if (gameInProgress) {
@@ -140,6 +166,11 @@ public class ReactionTest {
         return vboxDefault;
     }
 
+    /**
+     * This method will look at the current global variables
+     * in the game being played and will update this game's 
+     * high score value if a lower reaction time has been achieved.
+     */
     private void updateScore() {
         if(highScore == 0 ){
             this.highScore = scoreTime;
@@ -152,10 +183,21 @@ public class ReactionTest {
         }
     }
 
+    /**
+     * @return return this game's highest score values so far.
+     */
     public long getHighScore(){
         return highScore;
     }
 
+    /**
+     * This method creates a Vbox to be used on the bottom of the main screen.
+     * This VBox will contain an icon representing the game, a label identifying
+     * which game it is, as well as a quick description. A user can click on this
+     * Vbox on the main screen to launch this game.
+     * 
+     * @return This game's vbox to be used on the homescreen.
+     */
     public VBox createVBox() {
 
         this.highScore = 0;

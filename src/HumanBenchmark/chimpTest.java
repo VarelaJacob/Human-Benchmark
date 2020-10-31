@@ -13,44 +13,57 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
 
 /**
+ * This is the class for the Chimp Test game. 
+ * The objective of this game is to click on squares in order from lowest
+ * to highest based on their number value. As you clear a level more numbers
+ * will be added to the screen.
  * 
+ * @author Jacob Varela
  */
 public class ChimpTest {
     
+    // Global variables.
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
-    private int highScore, strikes;
-    private boolean gameInProgress;
-    private long startTime, endTime, elapsedTime;
+    private int highScore;
 
+    /**
+     * This method sets up the VBox that the user will see when they
+     * choose to play this game from the main screen.
+     * 
+     * @return VBox that describes how to play this game.
+     */
     public VBox playGame() {
 
+        // Icon for this game.
         ImageView iconView = new ImageView(new Image("file:resources/chimpIcon2.png"));
 
+        // Main title label.
         Label mainLabel = new Label("Are You Smarter Than a Chimpanzee?");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 50));
         mainLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Subtitle label #1
         Label subLabel1 = new Label("Click the Squares in order according to their numbers.");
         subLabel1.setFont(Font.font("Arial", 20));
         subLabel1.setTextFill(Color.web("#FFFFFF"));
 
+        // Subtitle label #2
         Label subLabel2 = new Label("This test will get progressively harder.");
         subLabel2.setFont(Font.font("Arial", 20));
         subLabel2.setTextFill(Color.web("#FFFFFF"));
 
+        // Showcases this game's high score.
         Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore));
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
         scoreLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Button that will start the game when clicked on.
         Button startTestBtn = new Button("Start Test");
         startTestBtn.setStyle("-fx-background-color: #ffd154");
         startTestBtn.setPrefSize(145, 45);
         startTestBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        startTestBtn.setOnMouseClicked( ( e ) -> {
-            /* play*/
-        });
-        
-
+       
+        // Vbox to store title labels, score label, and the start button.
         VBox vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
         vboxDefault.setStyle(BACKGROUNDBLUE);
@@ -63,23 +76,21 @@ public class ChimpTest {
         return vboxDefault;
     }
 
-    /*
-    private void updateScore() {
-        if(highScore == 0 ){
-            this.highScore = scoreTime;
-        }
-        else if(elapsedTime < highScore){
-            this.highScore = scoreTime;
-        }
-        else {
-            //do nothing.
-        }
-    }*/
-
+    /**
+     * @return return this game's highest score values so far.
+     */
     public int getHighScore(){
         return highScore;
     }
 
+     /**
+     * This method creates a Vbox to be used on the bottom of the main screen.
+     * This VBox will contain an icon representing the game, a label identifying
+     * which game it is, as well as a quick description. A user can click on this
+     * Vbox on the main screen to launch this game.
+     * 
+     * @return This game's vbox to be used on the homescreen.
+     */
     public VBox createVBox() {
 
         this.highScore = 0;

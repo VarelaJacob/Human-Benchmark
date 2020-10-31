@@ -13,14 +13,22 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
 
 /**
+ * This is the class for a Custom created game. 
  * 
+ * @author Jacob Varela
  */
 public class CustomGame {
     
+    // Global variables.
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
     private int highScore;
-    private boolean gameInProgress;
 
+    /**
+     * This method sets up the VBox that the user will see when they
+     * choose to play this game from the main screen.
+     * 
+     * @return VBox that describes how to play this game.
+     */
     public VBox playGame() {
 
         ImageView iconView = new ImageView(new Image("file:resources/customIcon2.png"));
@@ -33,7 +41,6 @@ public class CustomGame {
         subLabel1.setFont(Font.font("Arial", 20));
         subLabel1.setTextFill(Color.web("#FFFFFF"));
 
-
         Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore));
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
         scoreLabel.setTextFill(Color.web("#FFFFFF"));
@@ -41,11 +48,7 @@ public class CustomGame {
         Button startTestBtn = new Button("Start");
         startTestBtn.setStyle("-fx-background-color: #ffd154");
         startTestBtn.setPrefSize(145, 45);
-        startTestBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        startTestBtn.setOnMouseClicked( ( e ) -> {
-            /* play*/
-        });
-        
+        startTestBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));      
 
         VBox vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
@@ -59,23 +62,21 @@ public class CustomGame {
         return vboxDefault;
     }
 
-    /*
-    private void updateScore() {
-        if(highScore == 0 ){
-            this.highScore = scoreTime;
-        }
-        else if(elapsedTime < highScore){
-            this.highScore = scoreTime;
-        }
-        else {
-            //do nothing.
-        }
-    }*/
-
+    /**
+     * @return return this game's highest score values so far.
+     */
     public int getHighScore(){
         return highScore;
     }
 
+    /**
+     * This method creates a Vbox to be used on the bottom of the main screen.
+     * This VBox will contain an icon representing the game, a label identifying
+     * which game it is, as well as a quick description. A user can click on this
+     * Vbox on the main screen to launch this game.
+     * 
+     * @return This game's vbox to be used on the homescreen.
+     */
     public VBox createVBox() {
 
         this.highScore = 0;

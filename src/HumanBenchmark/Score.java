@@ -1,11 +1,21 @@
 package HumanBenchmark;
 
+/**
+ * This is the class that stores all the high score
+ * values obtained by the user in each game they've played.
+ * The only method besides the getters and setters is the 
+ * initializeScores() method.
+ * 
+ * @author Jacob Varela
+ */
 public class Score {
     
+    // Global score variables.
     private int aimScore, chimpScore, visualScore;
     private int customScore, typingScore, numMemScore, verbMemScore;
     private long reactionScore;
 
+    // This method initializes each score to have a starting value of zero.
     public void initializeScores(){
         this.reactionScore = 0;
         this.aimScore      = 0;
