@@ -139,7 +139,15 @@ public class MainGameLoop extends Application {
             @Override
             public void handle(ActionEvent event) {
                 border.setCenter(vboxDefault);
+
                 highScores.setReactionScore(reactionGame.getHighScore());
+                highScores.setAimScore(aimTrainer.getHighScore());
+                highScores.setChimpScore(chimpTest.getHighScore());
+                highScores.setVisualScore(visualMemory.getHighScore());
+                highScores.setCustomScore(customGame.getHighScore());
+                highScores.setTypingScore(typingTest.getHighScore());
+                highScores.setNumMemScore(numberMemory.getHighScore());
+                highScores.setVerbScore(verbalMemory.getHighScore());
             }
         });
 
