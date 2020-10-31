@@ -26,8 +26,6 @@
     * https://humanbenchmark.com/
 * This project contains various minigames that have been implemented using Java/JavaFX.
 
-  * [ https://www.youtube.com/watch?v=qhbuKbxJsk8&vl=en]
-
 ### Built With
 * [Java 11 (LTS)](https://www.azul.com/downloads/zulu-community/)
  
@@ -46,28 +44,47 @@ README.md                | Text file that contains information about the project
 
 ### Project Requirements
 #### Minigames:
-- [ ] Reaction Time: tests your reaction time by seeing how quickly you can click a button after the screen changes color.
+- [x] Reaction Time: tests your reaction time by seeing how quickly you can click a button after the screen changes color.
 - [ ] Aim Trainer: times how long it takes you to click 30 targests that randomly appear on the screen.
 - [ ] Chimp Test: click the boxes in numerically increasing order. After you click the first box the numbers dissapear. 
 - [ ] Visual Memory: a grid of squares is shown where some of the squares are white and some are not. Then the white squares become the same color as the other squares. The user must click only the squares which were white.
 - [ ]  Typing: times how long it takes the user to type out a given paragraph with no mistakes allowed.
-- [ ] Number Memory: users must recall an ever increasing number of digits.
-- [ ] Verbal Memory: users must mark a word as "seen" or "new", 3 strikes and your out. 
+- [x] Number Memory: users must recall an ever increasing number of digits.
+- [x] Verbal Memory: users must mark a word as "seen" or "new", 3 strikes and your out. 
 - [ ] Custom Minigame: TBD...
 
 ### Design Choices
 
-* ...
+* To create the games I started off by creating my main screen with a GridPane within a ScrollPane. This allowed me to easily recreate the look and feel of the website in JavaFX.
+  * I was able to easily add a home button in the Gridpane.Top section.
+  * I used the Gridpane.Bottom section to display the other game options, which was achieved using a combination of Hboxes and Vboxes.
+  * I used the Gridpane.Center section to display the home screen, as well as to change depending on what game is being played.
+* Created a list of 100 words for the Verbal Memory test using the following website:
+  * https://capitalizemytitle.com/random-word-generator/
 
 
 <!-- HOW TO RUN -->
 ## How to run this program
+  1. Download the .jar file.
+  2. Open a new terminal/command window.
+  3. Navigate to the directory where the .jar file is stored.
+  4. Type the following into the command line, then hit "Enter".
+
+        `java -jar HumanBenchmark.jar`
+
+  5. Have fun with the games!  
+
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-* Example of the visualization...
+* HomeScreen
+![HomeScreen](resources/example1.png)
+* HomeScreen scrolled down
+![HomeScreen](resources/example2.png)
+* Example of my Reaction Time
+![HomeScreen](resources/example3.png)
 
 
 <!-- CONTACT INFO -->
