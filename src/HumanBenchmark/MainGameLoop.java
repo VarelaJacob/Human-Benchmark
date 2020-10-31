@@ -202,7 +202,4 @@ public class MainGameLoop extends Application {
 
         return border;
     }
-
-    private void createbutton() {
-    }
 }
