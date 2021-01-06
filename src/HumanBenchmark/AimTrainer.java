@@ -47,27 +47,34 @@ public class AimTrainer {
         // Target Icon to be used while playing this game.
         ImageView targetIcon = new ImageView(new Image("file:resources/targetIcon.png"));
 
+        // This label describes the game being played.
         Label mainLabel = new Label("Aim Trainer");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 70));
         mainLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Describes what the goal of the game.
         Label subLabel1 = new Label("Hit 10 targets as quickly as you can.");
         subLabel1.setFont(Font.font("Arial", 20));
         subLabel1.setTextFill(Color.web("#FFFFFF"));
 
+        // Describes how to begin the game. 
         Label subLabel2 = new Label("Click the target above to begin.");
         subLabel2.setFont(Font.font("Arial", 20));
         subLabel2.setTextFill(Color.web("#FFFFFF"));
 
+        // Displays the current high score. 
         Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore)+ " ms");
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
         scoreLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Displays the number of targets the user needs to hit to finish the game. 
         Label countLabel = new Label("10");
         countLabel.setFont(Font.font("Arial", 30));
         countLabel.setTextFill(Color.web("#FFFFFF"));
 
-        // Create and format vbox
+        /* Create and format vbox that will contain the start screen,
+         * the post-game screen, and the in-game screen.
+         */
         VBox vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
         vboxDefault.setStyle(BACKGROUNDBLUE);
@@ -77,8 +84,13 @@ public class AimTrainer {
         vboxDefault.getChildren().addAll(scoreLabel, mainLabel, targetIcon, subLabel1, subLabel2);
         vboxDefault.setAlignment(Pos.CENTER);
 
-        /* TBD
-         * 
+        /* If the game is not yet in progress, start the timer used to 
+         * determine how long the user takes to complete the game. Place
+         * the target icon in a random place within the game space.
+         * If the game is in progress, decrement the number of targets remaining
+         * and reposition the target.
+         * If the game is completed calculate the user's average time
+         * to click each target and display the information on-screen. 
          */
         targetIcon.setOnMouseClicked(e -> {
 

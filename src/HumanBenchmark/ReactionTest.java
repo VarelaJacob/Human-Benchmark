@@ -86,18 +86,24 @@ public class ReactionTest {
         timeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 50));
         timeLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Label appears after a successful reaction.
         Label timeSubLabel = new Label("Click to keep going");
         timeSubLabel.setFont(Font.font("Arial", 20));
         timeSubLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Label appears after an unsuccessful reaction.
         Label fastLabel = new Label("Too soon!");
         fastLabel.setFont(Font.font("Arial", FontWeight.BOLD, 50));
         fastLabel.setTextFill(Color.web("#FFFFFF"));
 
+        // Label appears after an unsuccessful reaction.
         Label fastSubLabel = new Label("Click to try again.");
         fastSubLabel.setFont(Font.font("Arial", 20));
         fastSubLabel.setTextFill(Color.web("#FFFFFF"));
 
+        /* This Vbox is where the game is played.
+         * It will change colors depending on the current game state.
+         */
         VBox vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
         vboxDefault.setStyle(BACKGROUNDBLUE);
@@ -114,12 +120,18 @@ public class ReactionTest {
          */
         vboxDefault.setOnMouseClicked(e -> {
 
+            /* If the game is in progress then the user has already
+             * initiated the guessing process. This will process if the
+             * users guess was before or after the visual change on screen.
+             */
             if (gameInProgress) {
 
+                // Determine the users reaction time. 
                 endTime = System.nanoTime();
                 elapsedTime = endTime - startTime;
                 scoreTime = elapsedTime/1000000 - sleepTime;
 
+                // If the user reacted after the visual change.
                 if (scoreTime > 0) {
                     
                     updateScore();
@@ -128,13 +140,13 @@ public class ReactionTest {
                     timeLabel.setText(String.valueOf(scoreTime) + " ms");
                     vboxDefault.getChildren().addAll(clockIcon, timeLabel, timeSubLabel);
                     gameInProgress = false;
-                } else {
+                } else { // Else the user reacted preemptively.
                     vboxDefault.getChildren().clear();
                     vboxDefault.setStyle(BACKGROUNDBLUE);
                     vboxDefault.getChildren().addAll(exclamationIcon, fastLabel, fastSubLabel);
                     gameInProgress = false;
                 }
-            } else {
+            } else { // The game hasn't started yet. Begin the guessing process.
                 Random rand = new Random();
                 sleepTime = rand.nextInt(5000)*2;
                 vboxDefault.getChildren().clear();
@@ -142,6 +154,10 @@ public class ReactionTest {
                 vboxDefault.getChildren().addAll(redDots, redLabel);
                 gameInProgress = true;
                 
+                /* Begin the timer used to determine the user's reaction time.
+                 * Also start the timer to change the VBox after a 
+                 * random amount of time (less than 10 seconds).
+                 */
                 startTime = System.nanoTime();
                 Timer gameTimer = new Timer();
                 gameTimer.schedule(new TimerTask() {
@@ -178,9 +194,6 @@ public class ReactionTest {
         else if(scoreTime < highScore){
             this.highScore = scoreTime;
         }
-        else {
-            //do nothing.
-        }
     }
 
     /**
@@ -200,16 +213,21 @@ public class ReactionTest {
      */
     public VBox createVBox() {
 
+        // Initialize highScore.
         this.highScore = 0;
 
+        // Lightning bolt icon.
         ImageView iconView = new ImageView( new Image("file:resources/reactionIcon.png"));
 
+        // mainLabel describes the type of game.
         Label mainLabel = new Label("Reaction Time");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
 
+        // Description of the game.
         Label subLabel = new Label("Test your visual reflexes");
         subLabel.setFont(Font.font("Arial", 12));
 
+        // This vbox will appear on the GUI at all times. 
         VBox vbox = new VBox();
         vbox.setMinSize(250, 250);
         vbox.setMaxSize(250, 250);
@@ -218,6 +236,7 @@ public class ReactionTest {
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(20);
 
+        // Add appropriate icons and labels to the vbox.
         vbox.getChildren().addAll(iconView, mainLabel, subLabel);
 
         return vbox;

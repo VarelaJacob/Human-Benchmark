@@ -45,6 +45,7 @@ public class NumberMemory {
      */
     public VBox playGame() {
 
+        // This icon represents the the game.
         ImageView iconView = new ImageView(new Image("file:resources/numberIcon2.png"));
         
         // Main label
@@ -53,7 +54,9 @@ public class NumberMemory {
         mainLabel.setTextFill(Color.web("#FFFFFF"));
 
         // Subtitle label #1
-        subLabel1 = new Label("The average person can remember 7 numbers at once.");
+        subLabel1 = new Label(
+            "The average person can remember 7 numbers at once."
+        );
         subLabel1.setFont(Font.font("Arial", 20));
         subLabel1.setTextFill(Color.web("#FFFFFF"));
 
@@ -106,9 +109,6 @@ public class NumberMemory {
         }
         else if(currentScore > highScore){
             this.highScore = currentScore;
-        }
-        else {
-            //do nothing.
         }
     }
 

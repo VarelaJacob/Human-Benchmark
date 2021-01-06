@@ -116,21 +116,27 @@ public class VerbalMemory {
         wordLabel.setFont(Font.font("Arial", 40));
         wordLabel.setTextFill(Color.web("#FFFFFF")); 
 
+        // Button to be clicked on if the displayed word has been seen before.
         Button seenBtn = new Button("SEEN");
         seenBtn.setStyle(BACKGROUNDYELLOW);
         seenBtn.setPrefSize(145, 45);
         seenBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         
+        // Button to be clicked on if the displayed word is new. 
         Button newBtn = new Button("NEW");
         newBtn.setStyle(BACKGROUNDYELLOW);
         newBtn.setPrefSize(145, 45);
         newBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
+        // Button to start the game. 
         startTestBtn = new Button("Start");
         startTestBtn.setStyle(BACKGROUNDYELLOW);
         startTestBtn.setPrefSize(145, 45);
         startTestBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
+        /* This vbox will showcase the elements on the start screen, the
+         * post-game screen, as well as the in-game screen.
+         */
         vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
         vboxDefault.setStyle(BACKGROUNDBLUE);
@@ -143,12 +149,14 @@ public class VerbalMemory {
         // Begins the game if the start button is clicked. 
         startTestBtn.setOnMouseClicked( ( e ) -> {
 
+            // Initialize game variables.
             this.lives = 3;
             this.currentScore = 0;
             seenArray = new boolean[100];
             randIndex = rand.nextInt(100);
             Arrays.fill(seenArray, false);
 
+            // Initialize game labels and on-screen text.
             statBox = new HBox();
             statBox.setAlignment(Pos.CENTER);
             livesLabel.setText("Lives | " + String.valueOf(lives));
@@ -156,11 +164,13 @@ public class VerbalMemory {
             statBox.getChildren().addAll(livesLabel, currScoreLabel);
             statBox.setSpacing(30);
 
+            // Create an HBox to store the game buttons.
             gameBtnsBox = new HBox();
             gameBtnsBox.setAlignment(Pos.CENTER);
             gameBtnsBox.getChildren().addAll(seenBtn, newBtn);
             gameBtnsBox.setSpacing(30);
 
+            // Update vbox to show in-game elements. 
             vboxDefault.getChildren().clear();
             vboxDefault.getChildren().addAll(statBox, wordLabel, gameBtnsBox);
         });
