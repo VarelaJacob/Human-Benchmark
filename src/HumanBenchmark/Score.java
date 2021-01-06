@@ -11,9 +11,9 @@ package HumanBenchmark;
 public class Score {
     
     // Global score variables.
-    private int aimScore, chimpScore, visualScore;
-    private int customScore, typingScore, numMemScore, verbMemScore;
-    private long reactionScore;
+    private int chimpScore, visualScore;
+    private int numMemScore, verbMemScore;
+    private long aimScore, reactionScore;
 
     // This method initializes each score to have a starting value of zero.
     public void initializeScores(){
@@ -21,8 +21,6 @@ public class Score {
         this.aimScore      = 0;
         this.chimpScore    = 0;
         this.visualScore   = 0;
-        this.customScore   = 0;
-        this.typingScore   = 0;
         this.numMemScore   = 0;
         this.verbMemScore  = 0;
     }
@@ -35,11 +33,11 @@ public class Score {
         this.reactionScore = newScore;
     }
 
-    public int getAimScore(){
+    public long getAimScore(){
         return aimScore;
     }
 
-    public void setAimScore(int newScore){
+    public void setAimScore(long newScore){
         this.aimScore = newScore;
     }
 
@@ -57,22 +55,6 @@ public class Score {
 
     public void setVisualScore(int newScore){
         this.visualScore = newScore;
-    }
-
-    public int getCustomScore(){
-        return customScore;
-    }
-
-    public void setCustomScore(int newScore){
-        this.customScore = newScore;
-    }
-
-    public int getTypingScore(){
-        return typingScore;
-    }
-
-    public void setTypingScore(int newScore){
-        this.typingScore = newScore;
     }
 
     public int getNumMemScore(){
