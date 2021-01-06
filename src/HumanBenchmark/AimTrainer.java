@@ -1,9 +1,6 @@
 package HumanBenchmark;
 
 import java.util.Random;
-import java.util.Timer;
-
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
