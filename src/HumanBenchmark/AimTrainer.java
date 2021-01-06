@@ -1,5 +1,7 @@
 package HumanBenchmark;
 
+import java.util.Random;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -22,7 +24,9 @@ public class AimTrainer {
     
     // Global variables.
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
-    private int highScore;
+    private long highScore, startTime, scoreTime, endTime, elapsedTime;
+    private int targetsRemaining;
+    private boolean gameInProgress;
 
     /**
      * This method sets up the VBox that the user will see when they
@@ -32,8 +36,12 @@ public class AimTrainer {
      */
     public VBox playGame() {
 
+        // Initialize gameState
+        gameInProgress = false;
+        targetsRemaining = 10;
+
         // Target Icon to be used while playing this game.
-        ImageView iconView = new ImageView(new Image("file:resources/targetIcon.png"));
+        ImageView targetIcon = new ImageView(new Image("file:resources/targetIcon.png"));
 
         Label mainLabel = new Label("Aim Trainer");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 70));
@@ -51,6 +59,10 @@ public class AimTrainer {
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
         scoreLabel.setTextFill(Color.web("#FFFFFF"));
 
+        Label countLabel = new Label("10");
+        countLabel.setFont(Font.font("Arial", 30));
+        countLabel.setTextFill(Color.web("#FFFFFF"));
+
         // Create and format vbox
         VBox vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
@@ -58,8 +70,28 @@ public class AimTrainer {
         vboxDefault.setMinHeight(550);
         vboxDefault.setMaxHeight(550);
         vboxDefault.setSpacing(30);
-        vboxDefault.getChildren().addAll(scoreLabel, mainLabel, iconView, subLabel1, subLabel2);
+        vboxDefault.getChildren().addAll(scoreLabel, mainLabel, targetIcon, subLabel1, subLabel2);
         vboxDefault.setAlignment(Pos.CENTER);
+
+        /* TBD
+         * 
+         */
+        targetIcon.setOnMouseClicked(e -> {
+
+            if(gameInProgress){
+
+            }
+            else{
+                Random rand = new Random();
+                vboxDefault.getChildren().clear();
+                mainLabel.setText("Remaining");
+                mainLabel.setFont(Font.font("Arial", 20));
+
+
+                vboxDefault.getChildren().addAll(mainLabel, countLabel);
+
+            }
+        });
 
         return vboxDefault;
     }
@@ -67,8 +99,22 @@ public class AimTrainer {
     /**
      * @return return this game's highest score values so far.
      */
-    public int getHighScore(){
+    public long getHighScore(){
         return highScore;
+    }
+
+    /**
+     * This method will look at the current global variables
+     * in the game being played and will update this game's 
+     * high score value if a lower reaction time has been achieved.
+     */
+    private void updateScore() {
+        if(highScore == 0 ){
+            this.highScore = scoreTime;
+        }
+        else if(scoreTime < highScore){
+            this.highScore = scoreTime;
+        }
     }
 
     /**
