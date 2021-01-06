@@ -20,7 +20,7 @@ import javafx.scene.paint.Color;
  * 
  * @author Jacob Varela
  */
-public class ChimpTest {
+public class chimpTest {
     
     // Global variables.
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
