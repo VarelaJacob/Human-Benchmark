@@ -44,6 +44,9 @@ public class MainGameLoop extends Application {
     String BACKGROUNDGRAY  = "-fx-background-color: #e6e8f4";
     String BACKGROUNDWHITE = "-fx-background-color: #FF0000";
 
+    // Used to set the speed of Scrolling on the ScrollPane
+    final double SPEED = 0.01;
+
     /**
      * Creates the primaryStage to hold the GUI elements.
      * Creates a BorderPane to separate and organize the display.
@@ -61,6 +64,12 @@ public class MainGameLoop extends Application {
 
         scroll = new ScrollPane(humanPane);
         scroll.setFitToWidth(true);
+
+        // Increase the speed of the scrolling.
+        scroll.getContent().setOnScroll(scrollEvent -> {
+            double deltaY = scrollEvent.getDeltaY() * SPEED;
+            scroll.setVvalue(scroll.getVvalue() - deltaY);
+        });
 
         Scene scene = new Scene(new BorderPane(scroll), 1600, 900);
         primaryStage.setScene(scene);
