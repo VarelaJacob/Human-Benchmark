@@ -1,12 +1,15 @@
 package HumanBenchmark;
 
 import java.util.Random;
+import java.util.Timer;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -15,7 +18,7 @@ import javafx.scene.paint.Color;
 
 /**
  * This is the class for the aim trainer game. 
- * The objective of this game is to click on the 30 target icons that appear
+ * The objective of this game is to click on the 10 target icons that appear
  * on the screen in the smallest amount of time possible.
  * 
  * @author Jacob Varela
@@ -24,7 +27,7 @@ public class AimTrainer {
     
     // Global variables.
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
-    private long highScore, startTime, scoreTime, endTime, elapsedTime;
+    private long highScore, startTime, avgTime, endTime, elapsedTime;
     private int targetsRemaining;
     private boolean gameInProgress;
 
@@ -39,6 +42,10 @@ public class AimTrainer {
         // Initialize gameState
         gameInProgress = false;
         targetsRemaining = 10;
+        Random rand = new Random();
+        Pane gameField = new Pane();
+        gameField.setMinSize(800, 400);
+        gameField.setMaxSize(800, 400);
 
         // Target Icon to be used while playing this game.
         ImageView targetIcon = new ImageView(new Image("file:resources/targetIcon.png"));
@@ -47,7 +54,7 @@ public class AimTrainer {
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 70));
         mainLabel.setTextFill(Color.web("#FFFFFF"));
 
-        Label subLabel1 = new Label("Hit 30 targets as quickly as you can.");
+        Label subLabel1 = new Label("Hit 10 targets as quickly as you can.");
         subLabel1.setFont(Font.font("Arial", 20));
         subLabel1.setTextFill(Color.web("#FFFFFF"));
 
@@ -79,16 +86,73 @@ public class AimTrainer {
         targetIcon.setOnMouseClicked(e -> {
 
             if(gameInProgress){
+                                                
+                if(targetsRemaining == 1){
+                    gameInProgress = false;
+                    
+                    endTime = System.nanoTime();
+                    elapsedTime = (endTime - startTime)/1000000;
+
+                    avgTime = elapsedTime/10;
+
+                    updateScore();
+                    vboxDefault.getChildren().clear();
+                    
+                    subLabel1.setText("Average time per target:");
+                    subLabel1.setFont(Font.font("Arial", 50));
+
+                    subLabel2.setText(Long.toString(avgTime) + "ms");
+                    subLabel2.setFont(Font.font("Arial", 40));
+                    
+
+                    scoreLabel.setText("HighScore: " + String.valueOf(highScore)+ " ms");
+                    scoreLabel.setFont(Font.font("Arial", 30));
+
+                    vboxDefault.getChildren().addAll(
+                        scoreLabel, subLabel1, subLabel2
+                    );
+
+                    
+                }
+                else{
+                    targetsRemaining--;
+                    countLabel.setText(Integer.toString(targetsRemaining));
+
+                    int randX, randY;
+                    randX = rand.nextInt(700);
+                    randY = rand.nextInt(300);
+
+                    targetIcon.setLayoutX(randX);
+                    targetIcon.setLayoutY(randY);
+                    gameField.getChildren().clear();
+                    gameField.getChildren().addAll(targetIcon);
+                }
+
+
 
             }
             else{
-                Random rand = new Random();
+                gameInProgress = true;
+
+                startTime = System.nanoTime();
+                
+                int randX, randY;
+                randX = rand.nextInt(700);
+                randY = rand.nextInt(300);
+
                 vboxDefault.getChildren().clear();
                 mainLabel.setText("Remaining");
                 mainLabel.setFont(Font.font("Arial", 20));
 
+                
+                targetIcon.setLayoutX(randX);
+                targetIcon.setLayoutY(randY);
 
-                vboxDefault.getChildren().addAll(mainLabel, countLabel);
+                gameField.getChildren().clear();
+                gameField.getChildren().addAll(targetIcon);
+
+
+                vboxDefault.getChildren().addAll(mainLabel, countLabel,gameField);
 
             }
         });
@@ -110,10 +174,10 @@ public class AimTrainer {
      */
     private void updateScore() {
         if(highScore == 0 ){
-            this.highScore = scoreTime;
+            this.highScore = avgTime;
         }
-        else if(scoreTime < highScore){
-            this.highScore = scoreTime;
+        else if(avgTime < highScore){
+            this.highScore = avgTime;
         }
     }
 
