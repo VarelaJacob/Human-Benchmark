@@ -208,10 +208,11 @@ public class ReactionTest {
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
 
         Label subLabel = new Label("Test your visual reflexes");
-        subLabel.setFont(Font.font("Arial", 15));
+        subLabel.setFont(Font.font("Arial", 12));
 
         VBox vbox = new VBox();
-        vbox.setPrefSize(250, 250);
+        vbox.setMinSize(250, 250);
+        vbox.setMaxSize(250, 250);
         vbox.setStyle("-fx-background-color: #FFFFFF");
         vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.setAlignment(Pos.CENTER);

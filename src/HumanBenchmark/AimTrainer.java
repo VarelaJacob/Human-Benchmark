@@ -51,7 +51,7 @@ public class AimTrainer {
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
         scoreLabel.setTextFill(Color.web("#FFFFFF"));
 
-        // Vbox to store title labels.
+        // Create and format vbox
         VBox vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
         vboxDefault.setStyle(BACKGROUNDBLUE);
@@ -92,7 +92,8 @@ public class AimTrainer {
         subLabel.setFont(Font.font("Arial", 12));
 
         VBox vbox = new VBox();
-        vbox.setPrefSize(250, 250);
+        vbox.setMinSize(250, 250);
+        vbox.setMaxSize(250, 250);
         vbox.setStyle("-fx-background-color: #FFFFFF");
         vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.setAlignment(Pos.CENTER);

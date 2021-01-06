@@ -301,13 +301,15 @@ public class VerbalMemory {
         ImageView iconView = new ImageView( new Image("file:resources/verbalIcon.png"));
 
         Label mainLabel = new Label("Verbal Memory");
-        mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 25));
 
         Label subLabel = new Label("Keep as many words in short term memory as possible.");
         subLabel.setFont(Font.font("Arial", 12));
+        subLabel.wrapTextProperty().set(true);
 
         VBox vbox = new VBox();
-        vbox.setPrefSize(400, 400);
+        vbox.setMinSize(250, 250);
+        vbox.setMaxSize(250, 250);
         vbox.setStyle("-fx-background-color: #FFFFFF");
         vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.setAlignment(Pos.CENTER);

@@ -95,20 +95,19 @@ public class VisualMemory {
         Label mainLabel = new Label("Visual Memory");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
 
-        Label subLabel = new Label("Remember an increasingly large");
+        Label subLabel = new Label("Remember an increasingly large board of squares.");
         subLabel.setFont(Font.font("Arial", 12));
-
-        Label subLabel2 = new Label("board of squares.");
-        subLabel2.setFont(Font.font("Arial", 12));
+        subLabel.wrapTextProperty().set(true);
 
         VBox vbox = new VBox();
-        vbox.setPrefSize(250, 250);
+        vbox.setMinSize(250, 250);
+        vbox.setMaxSize(250, 250);
         vbox.setStyle("-fx-background-color: #FFFFFF");
         vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(20);
 
-        vbox.getChildren().addAll(iconView, mainLabel, subLabel ,subLabel2);
+        vbox.getChildren().addAll(iconView, mainLabel, subLabel);
 
         return vbox;
     }

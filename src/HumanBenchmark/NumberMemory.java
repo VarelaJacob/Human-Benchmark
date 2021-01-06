@@ -242,13 +242,13 @@ public class NumberMemory {
         ImageView iconView = new ImageView( new Image("file:resources/numberIcon.png"));
 
         Label mainLabel = new Label("Number Memory");
-        mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 25));
 
         Label subLabel = new Label("Remember the longest number you can");
         subLabel.setFont(Font.font("Arial", 12));
 
         VBox vbox = new VBox();
-        vbox.setPrefSize(400, 400);
+        vbox.setMinSize(250, 250);
         vbox.setStyle("-fx-background-color: #FFFFFF");
         vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.setAlignment(Pos.CENTER);

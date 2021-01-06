@@ -104,7 +104,8 @@ public class chimpTest {
         subLabel.setFont(Font.font("Arial", 12));
 
         VBox vbox = new VBox();
-        vbox.setPrefSize(250, 250);
+        vbox.setMinSize(250, 250);
+        vbox.setMaxSize(250, 250);
         vbox.setStyle("-fx-background-color: #FFFFFF");
         vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.setAlignment(Pos.CENTER);
