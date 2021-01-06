@@ -34,8 +34,8 @@ public class MainGameLoop extends Application {
     }
 
     // Global variables for the GUI.
-    VBox reactionStart, aimStart, chimpStart, visualStart, typingStart;
-    VBox numMemStart, verbMemStart, customStart;
+    VBox reactionStart, aimStart, chimpStart, visualStart;
+    VBox numMemStart, verbMemStart;
     ScrollPane scroll;
     Button homeButton;
 
@@ -91,10 +91,8 @@ public class MainGameLoop extends Application {
         // Create instances of each game.
         ReactionTest reactionGame = new ReactionTest();
         AimTrainer   aimTrainer   = new AimTrainer();
-        ChimpTest    chimpTest    = new ChimpTest();
+        chimpTest    chimpTest    = new chimpTest();
         VisualMemory visualMemory = new VisualMemory();
-        CustomGame   customGame   = new CustomGame();
-        TypingTest   typingTest   = new TypingTest();
         NumberMemory numberMemory = new NumberMemory();
         VerbalMemory verbalMemory = new VerbalMemory();
 
@@ -144,8 +142,6 @@ public class MainGameLoop extends Application {
                 highScores.setAimScore(aimTrainer.getHighScore());
                 highScores.setChimpScore(chimpTest.getHighScore());
                 highScores.setVisualScore(visualMemory.getHighScore());
-                highScores.setCustomScore(customGame.getHighScore());
-                highScores.setTypingScore(typingTest.getHighScore());
                 highScores.setNumMemScore(numberMemory.getHighScore());
                 highScores.setVerbScore(verbalMemory.getHighScore());
             }
@@ -212,24 +208,6 @@ public class MainGameLoop extends Application {
             border.setCenter(visualMemory.playGame());
             scroll.setVvalue(0);
         });
-
-        /* Scroll to the top of the screen and begin taking the Custom Test
-         * when this element is clicked.
-         */
-        customStart = customGame.createVBox();
-        customStart.setOnMouseClicked( e -> {
-            border.setCenter(customGame.playGame());
-            scroll.setVvalue(0);
-        });
-
-        /* Scroll to the top of the screen and begin taking the Typing Test
-         * when this element is clicked.
-         */
-        typingStart = typingTest.createVBox();
-        typingStart.setOnMouseClicked( e -> {
-            border.setCenter(typingTest.playGame());
-            scroll.setVvalue(0);
-        });
         
         /* Scroll to the top of the screen and begin taking Number Memory Test
          * when this element is clicked.
@@ -251,8 +229,7 @@ public class MainGameLoop extends Application {
 
         // Add the game elements to HBoxes.
         gameRow1.getChildren().addAll(reactionStart, aimStart, chimpStart);
-        gameRow2.getChildren().addAll(visualStart, customStart, typingStart);
-        gameRow3.getChildren().addAll(numMemStart, verbMemStart);
+        gameRow2.getChildren().addAll(visualStart, numMemStart, verbMemStart);
 
         /* Create Hboxes to be used only to separate the GridPane center from the
          * GridPane bottom.
