@@ -1,11 +1,14 @@
 package HumanBenchmark;
 
+import java.util.Random;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -24,7 +27,7 @@ public class chimpTest {
     
     // Global variables.
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
-    private int highScore;
+    private int highScore, numCount;
 
     /**
      * This method sets up the VBox that the user will see when they
@@ -33,6 +36,9 @@ public class chimpTest {
      * @return VBox that describes how to play this game.
      */
     public VBox playGame() {
+
+        // Used to start the game with 4 tiles.
+        numCount = 4;
 
         // Icon for this game.
         ImageView iconView = new ImageView(new Image("file:resources/chimpIcon2.png"));
@@ -55,14 +61,14 @@ public class chimpTest {
         // Showcases this game's high score.
         Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore));
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
-        scoreLabel.setTextFill(Color.web("#FFFFFF"));
+        scoreLabel.setTextFill(Color.web("#FFFFFF"));       
 
         // Button that will start the game when clicked on.
         Button startTestBtn = new Button("Start Test");
         startTestBtn.setStyle("-fx-background-color: #ffd154");
         startTestBtn.setPrefSize(145, 45);
         startTestBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-       
+     
         // Vbox to store title labels, score label, and the start button.
         VBox vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
@@ -72,6 +78,70 @@ public class chimpTest {
         vboxDefault.setSpacing(20);
         vboxDefault.getChildren().addAll(scoreLabel, iconView,mainLabel, subLabel1, subLabel2,startTestBtn);
         vboxDefault.setAlignment(Pos.CENTER);
+
+        startTestBtn.setOnMouseClicked(e -> {
+
+            // Create the gridpane to hold the numbers on-screen.
+            GridPane gameBoard = new GridPane();
+
+            // Set Grid Pane size.
+            gameBoard.setMinSize(800, 400);
+            gameBoard.setMaxSize(800, 400);
+
+            // Set Grid Pane padding.
+            gameBoard.setPadding(new Insets(10, 10, 10, 10));
+
+            // Set Grid Pane vertical and horizontal gaps.
+            gameBoard.setVgap(5);
+            gameBoard.setHgap(5);
+
+            // Set Grid Pane alighment.
+            gameBoard.setAlignment(Pos.CENTER);
+
+            // Populate the gameBoard with empty buttons.
+            for(int i = 0; i < 5; i++){
+                for(int j = 0; j < 8; j++) {
+                    // Empty button to pad the gameBoard.
+                    Button emptyBtn = new Button();
+                    emptyBtn.setMinSize(75, 75);    
+
+                    gameBoard.add(emptyBtn, j, i);
+                }
+            }
+
+            // Used to compare the gameBoard buttons. 
+            Button emptyBtn = new Button();
+
+            // While there are numbers to add on-screen, try and add to the gameBoard.
+            while( numCount > 0){
+                Random rand = new Random();
+                int randRow = rand.nextInt(5);
+                int randCol = rand.nextInt(8);
+
+                int boardIndex = randRow*8 + randCol;
+
+                if(gameBoard.getChildren().get(boardIndex) == emptyBtn){
+                    System.out.println("No emptt button here");
+                }
+                else{
+                    Button numBtn = new Button(Integer.toString(numCount));
+                    numBtn.setMinSize(75,75);
+                    System.out.print("\nEmptyBtn here. ");
+                    System.out.println("replacing with num: " + Integer.toString(numCount));
+                    System.out.println("randRow = " + Integer.toString(randRow));
+                    System.out.println("randCol = " + Integer.toString(randCol));
+                    gameBoard.add(numBtn, randCol, randRow);
+                    numCount--;
+                }
+                
+            }
+
+            // Clear the vbox and show the in-game screen/elements.
+            vboxDefault.getChildren().clear();
+            vboxDefault.getChildren().addAll(gameBoard);
+
+
+        });
 
         return vboxDefault;
     }
