@@ -2,6 +2,8 @@ package HumanBenchmark;
 
 import java.util.Random;
 
+import javax.swing.border.Border;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -118,7 +120,20 @@ public class chimpTest {
                 if(indexArray[boardIndex] == false){                
                     Button numBtn = new Button(Integer.toString(numCount));
                     numBtn.setMinSize(75,75);
-                    
+                    numBtn.setFont(Font.font("Arial", 40));
+                    numBtn.setTextFill(Color.web("#FFFFFF"));
+                    numBtn.setStyle("-fx-border-color: #FFFFFF;-fx-border-width: 2px;"+ BACKGROUNDBLUE);
+
+                    numBtn.setOnMouseEntered(event ->{
+                        numBtn.setTextFill(Color.RED);
+                        numBtn.setFont(Font.font("Arial",FontWeight.BOLD, 40));
+                    });
+
+                    numBtn.setOnMouseExited(event ->{
+                        numBtn.setTextFill(Color.WHITE);
+                        numBtn.setFont(Font.font("Arial",40));
+                    });
+
                     gameBoard.add(numBtn, randCol, randRow);
 
                     numCount--;
