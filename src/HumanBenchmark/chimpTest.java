@@ -81,6 +81,14 @@ public class chimpTest {
 
         startTestBtn.setOnMouseClicked(e -> {
 
+            // Boolean array to verify if a gamebaord space is occupied or not.
+            boolean[] indexArray = new boolean[40];
+
+            // Initialize all indices to false
+            for(int i=0; i<40; i++){
+                indexArray[i] = false;
+            }
+            
             // Create the gridpane to hold the numbers on-screen.
             GridPane gameBoard = new GridPane();
 
@@ -98,20 +106,6 @@ public class chimpTest {
             // Set Grid Pane alighment.
             gameBoard.setAlignment(Pos.CENTER);
 
-            // Populate the gameBoard with empty buttons.
-            for(int i = 0; i < 5; i++){
-                for(int j = 0; j < 8; j++) {
-                    // Empty button to pad the gameBoard.
-                    Button emptyBtn = new Button();
-                    emptyBtn.setMinSize(75, 75);    
-
-                    gameBoard.add(emptyBtn, j, i);
-                }
-            }
-
-            // Used to compare the gameBoard buttons. 
-            Button emptyBtn = new Button();
-
             // While there are numbers to add on-screen, try and add to the gameBoard.
             while( numCount > 0){
                 Random rand = new Random();
@@ -119,22 +113,23 @@ public class chimpTest {
                 int randCol = rand.nextInt(8);
 
                 int boardIndex = randRow*8 + randCol;
-
-                if(gameBoard.getChildren().get(boardIndex) == emptyBtn){
-                    System.out.println("No emptt button here");
-                }
-                else{
+                
+                // If there is no number there, place a number.
+                if(indexArray[boardIndex] == false){                
                     Button numBtn = new Button(Integer.toString(numCount));
                     numBtn.setMinSize(75,75);
-                    System.out.print("\nEmptyBtn here. ");
-                    System.out.println("replacing with num: " + Integer.toString(numCount));
-                    System.out.println("randRow = " + Integer.toString(randRow));
-                    System.out.println("randCol = " + Integer.toString(randCol));
+                    
                     gameBoard.add(numBtn, randCol, randRow);
+
                     numCount--;
+                    indexArray[boardIndex] = true;
+                    
+                    numBtn.setOnMouseClicked(ev -> {
+                        System.out.println(numBtn.getText());
+                    });
                 }
-                
             }
+            
 
             // Clear the vbox and show the in-game screen/elements.
             vboxDefault.getChildren().clear();
