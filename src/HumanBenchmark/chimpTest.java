@@ -31,6 +31,9 @@ public class chimpTest {
     private Labeled mainLabel, subLabel1, subLabel2, scoreLabel;
     private Button startBtn;
     private VBox vboxDefault;
+    private GridPane gameBoard;
+    private int[] rowArray,colArray;
+    private boolean buttonsHidden;
 
     /**
      * This method sets up the VBox that the user will see when they
@@ -39,7 +42,7 @@ public class chimpTest {
      * @return VBox that describes how to play this game.
      */
     public VBox playGame() {
-
+        
         // Used to start the game with 4 tiles.
         numCount = 4;
 
@@ -88,17 +91,28 @@ public class chimpTest {
         startBtn.setOnMouseClicked(e -> {
 
             tempCount = numCount;
+            buttonsHidden = false;
 
             // Boolean array to verify if a gamebaord space is occupied or not.
             boolean[] indexArray = new boolean[40];
+
+            // Interger arrays to store the locations of the numbers.
+            rowArray = new int[numCount];
+            colArray = new int[numCount];
 
             // Initialize all indices to false
             for(int i=0; i<40; i++){
                 indexArray[i] = false;
             }
+
+            // Initialize all indices to false
+            for(int i=0; i< numCount; i++){
+                rowArray[i] = 0;
+                colArray[i] = 0;
+            }
             
             // Create the gridpane to hold the numbers on-screen.
-            GridPane gameBoard = new GridPane();
+            gameBoard = new GridPane();
 
             // Set Grid Pane size.
             gameBoard.setMinSize(800, 400);
@@ -123,7 +137,10 @@ public class chimpTest {
                 int boardIndex = randRow*8 + randCol;
                 
                 // If there is no number there, place a number.
-                if(indexArray[boardIndex] == false){                
+                if(indexArray[boardIndex] == false){    
+                    rowArray[tempCount-1] = randRow;
+                    colArray[tempCount-1] = randCol;
+                    
                     Button numBtn = new Button(Integer.toString(tempCount));
                     numBtn.setMinSize(75,75);
                     numBtn.setFont(Font.font("Arial", 40));
@@ -153,8 +170,47 @@ public class chimpTest {
                             tempCount++;
 
                             // White out the buttons if past level 1.
-                            if(numCount > 4){
-                                gameBoard.getChildren().
+                            if(numCount > 4 && !buttonsHidden){
+                                buttonsHidden = true; 
+                                gameBoard.getChildren().clear();
+                                for(int k=numCount; k>0; k--){
+                                    Button whtBtn = new Button(Integer.toString(k));
+                                    whtBtn.setStyle("-fx-background-color: #FFFFFF");
+                                    whtBtn.setTextFill(Color.web("#FFFFFF"));
+                                    whtBtn.setMinSize(75,75);
+                                    if(k==1){
+                                        whtBtn.setOpacity(0);
+                                    }
+whtBtn.setOnMouseClicked(event-> {
+                                    if(Integer.parseInt(whtBtn.getText()) > 0){
+                                        playerGuess = whtBtn.getText();
+                                        
+                                        tempCount++;           
+                                        
+                                        if(playerGuess.equals(Integer.toString(tempCount)) 
+                                           && tempCount == numCount) {
+                                               numCount++;
+                                               showStatusScreen(numCount);
+                                        }
+                                        else if(playerGuess.equals(Integer.toString(tempCount))) {
+                                            
+                                            whtBtn.setText("0");
+                                            whtBtn.setOpacity(0);
+                                        }
+                                        else {
+                                            strikes++;
+            
+                                            if(strikes >= 3){
+                                                endGame();
+                                            }
+                                            else{
+                                                showStatusScreen(numCount);
+                                            }
+                                        }
+                                    }});
+                                    
+                                    gameBoard.add(whtBtn, colArray[k-1], rowArray[k-1]);
+                                }
                             }
 
                             
@@ -164,7 +220,7 @@ public class chimpTest {
                                    showStatusScreen(numCount);
                             }
                             else if(playerGuess.equals(Integer.toString(tempCount))) {
-                                System.out.println("Right");
+                                
                                 numBtn.setText("0");
                                 numBtn.setOpacity(0);
                             }
