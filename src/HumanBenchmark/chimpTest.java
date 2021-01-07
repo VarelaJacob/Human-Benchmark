@@ -1,13 +1,11 @@
 package HumanBenchmark;
 
 import java.util.Random;
-
-import javax.swing.border.Border;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -18,18 +16,21 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
 
 /**
- * This is the class for the Chimp Test game. 
- * The objective of this game is to click on squares in order from lowest
- * to highest based on their number value. As you clear a level more numbers
- * will be added to the screen.
+ * This is the class for the Chimp Test game. The objective of this game is to
+ * click on squares in order from lowest to highest based on their number value.
+ * As you clear a level more numbers will be added to the screen.
  * 
  * @author Jacob Varela
  */
 public class chimpTest {
-    
+
     // Global variables.
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
-    private int highScore, numCount;
+    private int highScore, numCount, tempCount, strikes;
+    private String playerGuess;
+    private Labeled mainLabel, subLabel1, subLabel2;
+    private Button startBtn;
+    private VBox vboxDefault;
 
     /**
      * This method sets up the VBox that the user will see when they
@@ -42,21 +43,24 @@ public class chimpTest {
         // Used to start the game with 4 tiles.
         numCount = 4;
 
+        strikes = 0;
+        playerGuess = "";
+
         // Icon for this game.
         ImageView iconView = new ImageView(new Image("file:resources/chimpIcon2.png"));
 
         // Main title label.
-        Label mainLabel = new Label("Are You Smarter Than a Chimpanzee?");
+         mainLabel = new Label("Are You Smarter Than a Chimpanzee?");
         mainLabel.setFont(Font.font("Arial", FontWeight.BOLD, 50));
         mainLabel.setTextFill(Color.web("#FFFFFF"));
 
         // Subtitle label #1
-        Label subLabel1 = new Label("Click the Squares in order according to their numbers.");
+        subLabel1 = new Label("Click the Squares in order according to their numbers.");
         subLabel1.setFont(Font.font("Arial", 20));
         subLabel1.setTextFill(Color.web("#FFFFFF"));
 
         // Subtitle label #2
-        Label subLabel2 = new Label("This test will get progressively harder.");
+        subLabel2 = new Label("This test will get progressively harder.");
         subLabel2.setFont(Font.font("Arial", 20));
         subLabel2.setTextFill(Color.web("#FFFFFF"));
 
@@ -66,22 +70,24 @@ public class chimpTest {
         scoreLabel.setTextFill(Color.web("#FFFFFF"));       
 
         // Button that will start the game when clicked on.
-        Button startTestBtn = new Button("Start Test");
-        startTestBtn.setStyle("-fx-background-color: #ffd154");
-        startTestBtn.setPrefSize(145, 45);
-        startTestBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        startBtn = new Button("Start Test");
+        startBtn.setStyle("-fx-background-color: #ffd154");
+        startBtn.setPrefSize(145, 45);
+        startBtn.setFont(Font.font("Arial", FontWeight.BOLD, 20));
      
         // Vbox to store title labels, score label, and the start button.
-        VBox vboxDefault = new VBox();
+        vboxDefault = new VBox();
         vboxDefault.setPadding(new Insets(10, 10, 10, 10));
         vboxDefault.setStyle(BACKGROUNDBLUE);
         vboxDefault.setMinHeight(550);
         vboxDefault.setMaxHeight(550);
         vboxDefault.setSpacing(20);
-        vboxDefault.getChildren().addAll(scoreLabel, iconView,mainLabel, subLabel1, subLabel2,startTestBtn);
+        vboxDefault.getChildren().addAll(scoreLabel, iconView,mainLabel, subLabel1, subLabel2,startBtn);
         vboxDefault.setAlignment(Pos.CENTER);
 
-        startTestBtn.setOnMouseClicked(e -> {
+        startBtn.setOnMouseClicked(e -> {
+
+            tempCount = numCount;
 
             // Boolean array to verify if a gamebaord space is occupied or not.
             boolean[] indexArray = new boolean[40];
@@ -109,7 +115,7 @@ public class chimpTest {
             gameBoard.setAlignment(Pos.CENTER);
 
             // While there are numbers to add on-screen, try and add to the gameBoard.
-            while( numCount > 0){
+            while( tempCount > 0){
                 Random rand = new Random();
                 int randRow = rand.nextInt(5);
                 int randCol = rand.nextInt(8);
@@ -118,7 +124,7 @@ public class chimpTest {
                 
                 // If there is no number there, place a number.
                 if(indexArray[boardIndex] == false){                
-                    Button numBtn = new Button(Integer.toString(numCount));
+                    Button numBtn = new Button(Integer.toString(tempCount));
                     numBtn.setMinSize(75,75);
                     numBtn.setFont(Font.font("Arial", 40));
                     numBtn.setTextFill(Color.web("#FFFFFF"));
@@ -136,11 +142,38 @@ public class chimpTest {
 
                     gameBoard.add(numBtn, randCol, randRow);
 
-                    numCount--;
+                    tempCount--;
                     indexArray[boardIndex] = true;
                     
                     numBtn.setOnMouseClicked(ev -> {
-                        System.out.println(numBtn.getText());
+
+                        // If the button is "in-play"
+                        if(Integer.parseInt(numBtn.getText()) > 0){
+                            playerGuess = numBtn.getText();
+                            tempCount++;
+
+                            
+                            if(playerGuess.equals(Integer.toString(tempCount)) 
+                               && tempCount == numCount) {
+                                   numCount++;
+                                   showStatusScreen(numCount);
+                            }
+                            else if(playerGuess.equals(Integer.toString(tempCount))) {
+                                System.out.println("Right");
+                                numBtn.setText("0");
+                                numBtn.setOpacity(0);
+                            }
+                            else {
+                                strikes++;
+
+                                if(strikes >= 3){
+                                    endGame();
+                                }
+                                else{
+                                    showStatusScreen(numCount);
+                                }
+                            }
+                        }
                     });
                 }
             }
@@ -154,6 +187,30 @@ public class chimpTest {
         });
 
         return vboxDefault;
+    }
+
+    /**
+     * 
+     */
+    private void showStatusScreen(int newCount) {
+        numCount = newCount;
+
+        mainLabel.setText("Numbers");
+        subLabel1.setText(Integer.toString(numCount));
+        subLabel2.setText("Strikes\n" +
+            Integer.toString(strikes) +
+            " of 3");
+        startBtn.setText("Continue");
+        vboxDefault.getChildren().clear();
+        vboxDefault.getChildren().addAll(mainLabel, subLabel1, subLabel2, startBtn);
+    }
+
+    /**
+     * 
+     */
+    private void endGame() {
+        mainLabel.setText("Score");
+
     }
 
     /**
