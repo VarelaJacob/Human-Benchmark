@@ -28,7 +28,7 @@ public class chimpTest {
     String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
     private int highScore, numCount, tempCount, strikes;
     private String playerGuess;
-    private Labeled mainLabel, subLabel1, subLabel2;
+    private Labeled mainLabel, subLabel1, subLabel2, scoreLabel;
     private Button startBtn;
     private VBox vboxDefault;
 
@@ -65,7 +65,7 @@ public class chimpTest {
         subLabel2.setTextFill(Color.web("#FFFFFF"));
 
         // Showcases this game's high score.
-        Label scoreLabel = new Label("HighScore: " + String.valueOf(highScore));
+        scoreLabel = new Label("HighScore: " + String.valueOf(highScore));
         scoreLabel.setFont(Font.font("Arial", FontPosture.ITALIC, 14));
         scoreLabel.setTextFill(Color.web("#FFFFFF"));       
 
@@ -152,6 +152,11 @@ public class chimpTest {
                             playerGuess = numBtn.getText();
                             tempCount++;
 
+                            // White out the buttons if past level 1.
+                            if(numCount > 4){
+                                gameBoard.getChildren().
+                            }
+
                             
                             if(playerGuess.equals(Integer.toString(tempCount)) 
                                && tempCount == numCount) {
@@ -195,22 +200,36 @@ public class chimpTest {
     private void showStatusScreen(int newCount) {
         numCount = newCount;
 
-        mainLabel.setText("Numbers");
-        subLabel1.setText(Integer.toString(numCount));
-        subLabel2.setText("Strikes\n" +
+        mainLabel.setText("Numbers: " + Integer.toString(numCount));
+        subLabel2.setText("Strikes: " +
             Integer.toString(strikes) +
             " of 3");
         startBtn.setText("Continue");
         vboxDefault.getChildren().clear();
-        vboxDefault.getChildren().addAll(mainLabel, subLabel1, subLabel2, startBtn);
+        vboxDefault.getChildren().addAll(mainLabel, subLabel2, startBtn);
     }
 
     /**
      * 
      */
     private void endGame() {
-        mainLabel.setText("Score");
+        mainLabel.setText("Score: " + Integer.toString(numCount));
 
+        updateScore(numCount);
+
+        numCount = 4;
+        strikes = 0;
+        startBtn.setText("try again");
+
+        vboxDefault.getChildren().clear();
+        vboxDefault.getChildren().addAll(scoreLabel, mainLabel, startBtn);
+    }
+
+    private void updateScore(int newScore) {
+        if(highScore == 0 || newScore > highScore){
+            this.highScore = newScore;
+            scoreLabel.setText("HighScore: " + String.valueOf(highScore));
+        }
     }
 
     /**
