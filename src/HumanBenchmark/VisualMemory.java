@@ -141,15 +141,15 @@ public class VisualMemory {
 
         // Set Grid Pane alighment.
         gameBoard.setAlignment(Pos.CENTER);
-        
-        // Create blank button for the gameBoard.
-        Button blankBtn = new Button();
-        blankBtn.setMinSize(boardSize, boardSize);
-        blankBtn.setStyle(TILEBLUE);
 
         // Initialize the gameBoard with blank tiles.
         for(int i=0; i<boardSize; i++){
             for(int j=0; j<boardSize; j++){
+                // Create blank button for the gameBoard.
+                Button blankBtn = new Button();
+                blankBtn.setMinSize(tileSize, tileSize);
+                blankBtn.setStyle(TILEBLUE);    
+
                 gameBoard.add(blankBtn, j, i);
             }
         }
