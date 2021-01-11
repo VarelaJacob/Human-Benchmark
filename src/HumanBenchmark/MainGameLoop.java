@@ -37,7 +37,7 @@ public class MainGameLoop extends Application {
     VBox reactionStart, aimStart, chimpStart, visualStart;
     VBox numMemStart, verbMemStart;
     ScrollPane scroll;
-    Button homeButton;
+    Button homeBtn;
 
     // Used for setting the background colors of some gui elements.
     String BACKGROUNDBLUE  = "-fx-background-color: #2b86d1";
@@ -138,11 +138,24 @@ public class MainGameLoop extends Application {
          * the page. This button will also update the highscores of each
          * game when clicked. 
          */
-        homeButton = new Button("Human Benchmark (home)");
-        homeButton.setMinHeight(35);
-        homeButton.setStyle("-fx-background-color: #f2f2f2");
-        homeButton.setStyle("-fx-border-color: #000000");
-        homeButton.setOnAction(new EventHandler<ActionEvent>(){
+        homeBtn = new Button("Human Benchmark (home)");
+        homeBtn.setMinHeight(40);
+        homeBtn.setMinWidth(100);
+        homeBtn.setStyle("-fx-background-color: #f2f2f2;"+
+        "-fx-border-color: #000000; -fx-border-width: 2");
+        homeBtn.setFont(Font.font("Arial", FontWeight.THIN, 13));
+        
+        homeBtn.setOnMouseEntered(e ->{
+            homeBtn.setStyle("-fx-background-color: yellow;"+
+        "-fx-border-color: black; -fx-border-width: 2");          
+        });
+
+        homeBtn.setOnMouseExited(ev ->{
+            homeBtn.setStyle("-fx-background-color: #f2f2f2;"+
+        "-fx-border-color: #000000; -fx-border-width: 2");
+        });
+
+        homeBtn.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
                 border.setCenter(vboxDefault);
@@ -161,7 +174,7 @@ public class MainGameLoop extends Application {
         hboxTop.setStyle(BACKGROUNDGRAY);
         hboxTop.setPadding(new Insets(0, 0, 0, 20));
         hboxTop.setSpacing(20);
-        hboxTop.getChildren().addAll(homeButton);
+        hboxTop.getChildren().addAll(homeBtn);
 
         // Create Vbox to store the game elements on the homepage.
         VBox vboxBottom = new VBox();
