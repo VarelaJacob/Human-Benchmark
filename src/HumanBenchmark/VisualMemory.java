@@ -1,7 +1,10 @@
 package HumanBenchmark;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -31,6 +34,7 @@ public class VisualMemory {
     private final String TILEWHITE = "-fx-background-color: #FFFFFF";
     private final String TILEBLACK = "-fx-background-color: #000000";
     private final String TILEBLUE  = "-fx-background-color: #000795";
+    private final int SLEEPTIME = 1000; // milliseconds
     private int highScore, currentScore, currLvl, currLives, boardSize, tileSize;
     private Random rand = new Random();
     private GridPane gameBoard;
@@ -54,6 +58,7 @@ public class VisualMemory {
 
         // Tiles start out as 125x125
         tileSize = 125;
+
         // Start the game with 3 lives.
         currLives = 3;
 
@@ -143,6 +148,83 @@ public class VisualMemory {
         gameBoard.setAlignment(Pos.CENTER);
 
         // Initialize the gameBoard with blank tiles.
+        clearGameBoard();
+    
+        /* Begin the timer used to display the white tiles
+         * after a small delay. 
+         */
+        Timer delayTimer = new Timer();
+        delayTimer.schedule( new TimerTask(){
+            
+            @Override
+            public void run() {
+                Platform.runLater(() ->{
+
+                    int tempCount2 = tempCount;
+
+                    /* While there are not the correct number of tiles, 
+                    * add them to the gameBoard.
+                    */
+                    while(tempCount2 > 0){
+
+                        // Choose a random row and column.
+                        int randRow = rand.nextInt(boardSize);
+                        int randCol = rand.nextInt(boardSize);
+
+                        // Determine the index in the indexArray[].
+                        int tileIndex = randRow*boardSize + randCol;
+
+                        // if there is no tile there, place a tile there.
+                        if( indexArray[tileIndex] == false ){
+
+                            // Add the location to both arrays.
+                            rowArray[tempCount2-1] = randRow;
+                            colArray[tempCount2-1] = randCol;
+
+                            // Create the tile using a button element.
+                            Button whiteBtn = new Button();
+                            whiteBtn.setMinSize(tileSize, tileSize);
+                            whiteBtn.setStyle(TILEWHITE);
+
+                            // Add the tile to the gameBoard
+                            gameBoard.add(whiteBtn, randCol, randRow);
+
+                            // decrement the tempCount;
+                            tempCount2--;
+
+                            /* Mark the index as true, indicating that there is a tile
+                            * located in that space on the gameBoard.
+                            */
+                            indexArray[tileIndex] = true;
+                        }
+                    }
+                });
+            }
+        },SLEEPTIME);
+
+        delayTimer.schedule( new TimerTask(){
+
+            @Override
+            public void run(){
+                Platform.runLater(() ->{
+                    clearGameBoard();
+                });
+            }
+        },SLEEPTIME*3);        
+
+        
+
+        // Clear the vbox and show the new screen.
+        vboxDefault.getChildren().clear();
+        vboxDefault.getChildren().addAll(gameBoard);
+
+    }
+
+    /**
+     * Initializes the gameboard with blank tiles. Used 
+     * before and after the user is shown the white tiles.
+     */
+    private void clearGameBoard() {
         for(int i=0; i<boardSize; i++){
             for(int j=0; j<boardSize; j++){
                 // Create blank button for the gameBoard.
@@ -153,46 +235,6 @@ public class VisualMemory {
                 gameBoard.add(blankBtn, j, i);
             }
         }
-
-        // While there are not the correct number of tiles, add them to the gameBoard.
-        while(tempCount > 0){
-
-            // Choose a random row and column.
-            int randRow = rand.nextInt(boardSize);
-            int randCol = rand.nextInt(boardSize);
-
-            // Determine the index in the indexArray[].
-            int tileIndex = randRow*boardSize + randCol;
-
-            // if there is no tile there, place a tile there.
-            if( indexArray[tileIndex] == false ){
-
-                // Add the location to both arrays.
-                rowArray[tempCount-1] = randRow;
-                colArray[tempCount-1] = randCol;
-
-                // Create the tile using a button element.
-                Button whiteBtn = new Button();
-                whiteBtn.setMinSize(tileSize, tileSize);
-                whiteBtn.setStyle(TILEWHITE);
-
-                // Add the tile to the gameBoard
-                gameBoard.add(whiteBtn, randCol, randRow);
-
-                // decrement the tempCount;
-                tempCount--;
-
-                /* Mark the index as true, indicating that there is a tile
-                 * located in that space on the gameBoard.
-                 */
-                indexArray[tileIndex] = true;
-            }
-        }
-
-        // Clear the vbox and show the new screen.
-        vboxDefault.getChildren().clear();
-        vboxDefault.getChildren().addAll(gameBoard);
-
     }
 
     /**
