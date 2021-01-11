@@ -28,8 +28,9 @@ import java.lang.Math;
 public class NumberMemory {
     
     // Global variables.
-    String BACKGROUNDYELLOW = "-fx-background-color: #ffd154";
-    String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
+    private final String BORDERHIGHLIGHT = "-fx-border-color: yellow;-fx-border-width: 10; -fx-background-color: #FFFFFF";
+    private final String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
+    private final String BACKGROUNDYELLOW = "-fx-background-color: #ffd154";
     private long magicNum, currentNum;
     private int highScore, currentScore;
     private Random rand = new Random();
@@ -254,6 +255,16 @@ public class NumberMemory {
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(20);
 
+        // Highlight the vbox on Mouse hover.
+        vbox.setOnMouseEntered(e -> {
+            vbox.setStyle(BORDERHIGHLIGHT);
+        });
+
+        // Remove highlight when Mouse isn't hovering over.
+        vbox.setOnMouseExited(ev -> {
+            vbox.setStyle("-fx-background-color: #FFFFFF");
+        });
+        
         vbox.getChildren().addAll(iconView, mainLabel, subLabel);
 
         return vbox;

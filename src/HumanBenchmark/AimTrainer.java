@@ -23,7 +23,8 @@ import javafx.scene.paint.Color;
 public class AimTrainer {
     
     // Global variables.
-    String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
+    private final String BORDERHIGHLIGHT = "-fx-border-color: yellow;-fx-border-width: 10; -fx-background-color: #FFFFFF";
+    private final String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
     private long highScore, startTime, avgTime, endTime, elapsedTime;
     private int targetsRemaining;
     private boolean gameInProgress;
@@ -217,6 +218,16 @@ public class AimTrainer {
         vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(20);
+
+        // Highlight the vbox on Mouse hover.
+        vbox.setOnMouseEntered(e -> {
+            vbox.setStyle(BORDERHIGHLIGHT);
+        });
+
+        // Remove highlight when Mouse isn't hovering over.
+        vbox.setOnMouseExited(ev -> {
+            vbox.setStyle("-fx-background-color: #FFFFFF");
+        });
 
         vbox.getChildren().addAll(iconView, mainLabel, subLabel);
 

@@ -26,9 +26,10 @@ import java.util.TimerTask;
 public class ReactionTest {
 
     // Global variables.
-    String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
-    String BACKGROUNDRED = "-fx-background-color: #ce2636";
-    String BACKGROUNDGREEN = "-fx-background-color: #4bdb6a";
+    private final String BORDERHIGHLIGHT = "-fx-border-color: yellow;-fx-border-width: 10; -fx-background-color: #FFFFFF";
+    private final String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
+    private final String BACKGROUNDRED = "-fx-background-color: #ce2636";
+    private final String BACKGROUNDGREEN = "-fx-background-color: #4bdb6a";
     private long highScore, startTime, scoreTime, endTime, elapsedTime;
     private int sleepTime;
     private boolean gameInProgress;
@@ -236,6 +237,16 @@ public class ReactionTest {
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(20);
 
+        // Highlight the vbox on Mouse hover.
+        vbox.setOnMouseEntered(e -> {
+            vbox.setStyle(BORDERHIGHLIGHT);
+        });
+
+        // Remove highlight when Mouse isn't hovering over.
+        vbox.setOnMouseExited(ev -> {
+            vbox.setStyle("-fx-background-color: #FFFFFF");
+        });
+        
         // Add appropriate icons and labels to the vbox.
         vbox.getChildren().addAll(iconView, mainLabel, subLabel);
 

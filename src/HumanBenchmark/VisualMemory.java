@@ -23,7 +23,8 @@ import javafx.scene.paint.Color;
 public class VisualMemory {
     
     // Global variables.
-    String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
+    private final String BORDERHIGHLIGHT = "-fx-border-color: yellow;-fx-border-width: 10; -fx-background-color: #FFFFFF";
+    private final String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
     private int highScore;
 
     /**
@@ -107,6 +108,16 @@ public class VisualMemory {
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(20);
 
+        // Highlight the vbox on Mouse hover.
+        vbox.setOnMouseEntered(e -> {
+            vbox.setStyle(BORDERHIGHLIGHT);
+        });
+
+        // Remove highlight when Mouse isn't hovering over.
+        vbox.setOnMouseExited(ev -> {
+            vbox.setStyle("-fx-background-color: #FFFFFF");
+        });
+        
         vbox.getChildren().addAll(iconView, mainLabel, subLabel);
 
         return vbox;
