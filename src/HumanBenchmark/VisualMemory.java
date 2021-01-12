@@ -254,6 +254,7 @@ public class VisualMemory {
      * before and after the user is shown the white tiles.
      */
     private void clearGameBoard() {
+        gameBoard.getChildren().clear();
         for(int i=0; i<boardSize; i++){
             for(int j=0; j<boardSize; j++){
 
@@ -279,6 +280,11 @@ public class VisualMemory {
 
                         // Decrement this counter.
                         tilesRemaining--;
+                        
+                        // End the turn if there are no tiles left.
+                      /*  if(tilesRemaining == 0){
+                            endTurn();
+                        }*/
 
                         // Remove the button, change it to white, then re-add.
                         gameBoard.getChildren().remove(blankBtn);
@@ -287,7 +293,18 @@ public class VisualMemory {
                     }
                     else { // The guess was wrong.
                         strikes++;
-                        
+
+                        // End the turn if the player guesses wrong 3 times.
+                       /* if(strikes > 2){
+                            endTurn();
+                        }*/
+
+                        /* If the game is not over remove the button from the 
+                         * board, change it to black, then re-add.
+                         */
+                        gameBoard.getChildren().remove(blankBtn);
+                        blankBtn.setStyle(TILEBLACK);
+                        gameBoard.getChildren().add(playerGuess, blankBtn);
                     }
 
                 });
