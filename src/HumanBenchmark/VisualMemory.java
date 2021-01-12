@@ -39,7 +39,7 @@ public class VisualMemory {
     private final String TILEBLUE  = "-fx-background-color: #000795;"+
                                      "-fx-background-radius: 15px";
     private final int SLEEPTIME = 1000; // milliseconds
-    private int highScore, currentScore, currLvl, currLives;
+    private int highScore, currLvl, currLives;
     private int tileSize, boardSize, strikes, playerGuess, tilesRemaining;
     private Random rand = new Random();
     private GridPane gameBoard;
@@ -55,18 +55,6 @@ public class VisualMemory {
      * @return VBox that describes how to play this game.
      */
     public VBox playGame() {
-
-        // Start the game at level 1.
-        currLvl = 1;
-
-        // Boardsize will start as 3x3
-        boardSize = 3;
-
-        // Tiles start out as 125x125
-        tileSize = 125;
-
-        // Start the game with 3 lives.
-        currLives = 3;
 
         // This game shares an icon with the chimp game.
         ImageView iconView = new ImageView(new Image("file:resources/chimpIcon2.png"));
@@ -104,6 +92,19 @@ public class VisualMemory {
 
         // Begin playing the game when the start button is clicked.
         newGameBtn.setOnMouseClicked(e ->{
+
+            // Start the game at level 1.
+            currLvl = 1;
+
+            // Boardsize will start as 3x3
+            boardSize = 3;
+
+            // Tiles start out as 125x125
+            tileSize = 125;
+
+            // Start the game with 3 lives.
+            currLives = 3;
+
             takeTurn();
         });
 
@@ -282,9 +283,9 @@ public class VisualMemory {
                         tilesRemaining--;
                         
                         // End the turn if there are no tiles left.
-                      /*  if(tilesRemaining == 0){
+                        if(tilesRemaining == 0){
                             endTurn();
-                        }*/
+                        }
 
                         // Remove the button, change it to white, then re-add.
                         gameBoard.getChildren().remove(blankBtn);
@@ -294,23 +295,60 @@ public class VisualMemory {
                     else { // The guess was wrong.
                         strikes++;
 
-                        // End the turn if the player guesses wrong 3 times.
-                       /* if(strikes > 2){
-                            endTurn();
-                        }*/
-
-                        /* If the game is not over remove the button from the 
-                         * board, change it to black, then re-add.
-                         */
+                        // remove the blue button from the board.
                         gameBoard.getChildren().remove(blankBtn);
-                        blankBtn.setStyle(TILEBLACK);
-                        gameBoard.getChildren().add(playerGuess, blankBtn);
+
+                        // End the turn if the player guesses wrong 3 times.
+                        if(strikes > 2){
+                            // The player loses a life after 3 incorrect guesses.
+                            currLives--;
+                            endTurn();
+                        }
+                        else{
+                            /* If the game is not over remove the button from the 
+                            * board, change it to black, then re-add.
+                            */
+                            blankBtn.setStyle(TILEBLACK);
+                            gameBoard.getChildren().add(playerGuess, blankBtn);
+                        }
                     }
 
                 });
 
                 gameBoard.add(blankBtn, j, i);
             }
+        }
+    }
+
+
+    private void endTurn() {
+        
+        if(currLives < 1){ // The game is over
+            gameBoard.getChildren().clear();
+            
+            updateHighScore();
+
+            // Update labels to show the user's score
+            mainLabel.setText("Visual Memory");
+            subLabel1.setText("Level " + Integer.toString(currLvl));
+            subLabel1.setFont(Font.font("Arial", FontWeight.BOLD, 75));
+            scoreLabel.setText("HighScore: Level " + String.valueOf(highScore));
+
+            // Give the user an option to try again.
+            newGameBtn.setText("Try again");
+
+            vboxDefault.getChildren().clear();
+            vboxDefault.getChildren().addAll(
+                scoreLabel, mainLabel, subLabel1, newGameBtn
+            );
+
+        }
+        else if(strikes > 2){ // The player repeats the level.
+            takeTurn();
+        }
+        else { // The player moves onto the next level.
+            currLvl++;
+            takeTurn();
         }
     }
 
@@ -328,10 +366,10 @@ public class VisualMemory {
      */
     private void updateHighScore() {
         if(highScore == 0 ){
-            this.highScore = currentScore;
+            this.highScore = currLvl;
         }
-        else if(currentScore > highScore){
-            this.highScore = currentScore;
+        else if(currLvl > highScore){
+            this.highScore = currLvl;
         }
     }
 
