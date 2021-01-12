@@ -138,11 +138,14 @@ public class MainGameLoop extends Application {
          * the page. This button will also update the highscores of each
          * game when clicked. 
          */
-        homeBtn = new Button("Human Benchmark (home)");
+        homeBtn = new Button("Home");
         homeBtn.setMinHeight(40);
-        homeBtn.setMinWidth(100);
+        homeBtn.setMinWidth(50);
         homeBtn.setStyle("-fx-background-color: #f2f2f2;"+
-        "-fx-border-color: #000000; -fx-border-width: 2");
+        "-fx-border-color: #000000;"+
+        "-fx-border-radius: 15px;" +
+        "-fx-background-radius: 15px;" +
+        "-fx-border-width: 2");
         homeBtn.setFont(Font.font("Arial", FontWeight.THIN, 13));
         
         homeBtn.setOnMouseEntered(e ->{
@@ -152,7 +155,10 @@ public class MainGameLoop extends Application {
 
         homeBtn.setOnMouseExited(ev ->{
             homeBtn.setStyle("-fx-background-color: #f2f2f2;"+
-        "-fx-border-color: #000000; -fx-border-width: 2");
+            "-fx-border-color: #000000;"+
+            "-fx-border-radius: 15px;" +
+            "-fx-background-radius: 15px;" +
+            "-fx-border-width: 2");
         });
 
         homeBtn.setOnAction(new EventHandler<ActionEvent>(){
@@ -175,6 +181,7 @@ public class MainGameLoop extends Application {
         hboxTop.setPadding(new Insets(0, 0, 0, 20));
         hboxTop.setSpacing(20);
         hboxTop.getChildren().addAll(homeBtn);
+        hboxTop.setAlignment(Pos.CENTER);
 
         // Create Vbox to store the game elements on the homepage.
         VBox vboxBottom = new VBox();
