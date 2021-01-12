@@ -31,9 +31,12 @@ public class VisualMemory {
     // Global variables.
     private final String BORDERHIGHLIGHT = "-fx-border-color: yellow;-fx-border-width: 10; -fx-background-color: #FFFFFF";
     private final String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
-    private final String TILEWHITE = "-fx-background-color: #FFFFFF";
-    private final String TILEBLACK = "-fx-background-color: #000000";
-    private final String TILEBLUE  = "-fx-background-color: #000795";
+    private final String TILEWHITE = "-fx-background-color: #FFFFFF;"+
+                                     "-fx-background-radius: 15px";
+    private final String TILEBLACK = "-fx-background-color: #000000;"+
+                                     "-fx-background-radius: 15px";
+    private final String TILEBLUE  = "-fx-background-color: #000795;"+
+                                     "-fx-background-radius: 15px";
     private final int SLEEPTIME = 1000; // milliseconds
     private int highScore, currentScore, currLvl, currLives, boardSize, tileSize;
     private Random rand = new Random();
