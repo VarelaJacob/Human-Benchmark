@@ -185,12 +185,17 @@ public class NumberMemory {
                 completeLevel();
             }
             else{
-                subLabel1.setText("Number : " + String.valueOf(currentNum));
-                subLabel2.setText("Your Answer : " + String.valueOf(input));
+                // Update the high Score.
+                updateHighScore();
+                scoreLabel.setText("HighScore: Level " + String.valueOf(highScore));
+
+                mainLabel.setText("Your score: "+ String.valueOf(currentScore));
+                subLabel1.setText("Correct Answer: " + String.valueOf(currentNum));
+                subLabel2.setText("Your Answer: " + String.valueOf(input));
                 startTestBtn.setText("Try Again");
 
                 vboxDefault.getChildren().clear();
-                vboxDefault.getChildren().addAll(subLabel1, subLabel2, startTestBtn);
+                vboxDefault.getChildren().addAll(scoreLabel,mainLabel,  subLabel1, subLabel2, startTestBtn);
             }
         });
     }
@@ -203,8 +208,8 @@ public class NumberMemory {
     private void completeLevel() {
 
         updateHighScore();
-        subLabel1.setText("Number : " + String.valueOf(currentNum));
-        subLabel2.setText("Your Answer : " + String.valueOf(currentNum));
+        subLabel1.setText("Correct Answer: " + String.valueOf(currentNum));
+        subLabel2.setText("Your Answer: " + String.valueOf(currentNum));
         mainLabel.setText("Level " + String.valueOf(currentScore-1));
 
         Button nextBtn = new Button("NEXT");
