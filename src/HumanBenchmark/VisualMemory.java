@@ -39,12 +39,14 @@ public class VisualMemory {
     private final String TILEBLUE  = "-fx-background-color: #000795;"+
                                      "-fx-background-radius: 15px";
     private final int SLEEPTIME = 1000; // milliseconds
-    private int highScore, currentScore, currLvl, currLives, boardSize, tileSize;
+    private int highScore, currentScore, currLvl, currLives;
+    private int tileSize, boardSize, strikes, playerGuess, tilesRemaining;
     private Random rand = new Random();
     private GridPane gameBoard;
     private VBox vboxDefault;
     private Label scoreLabel, subLabel1, mainLabel;
     private Button newGameBtn;
+    private boolean[] indexArray;
 
     /**
      * This method sets up the VBox that the user will see when they
@@ -116,6 +118,14 @@ public class VisualMemory {
         // tempCount used to add numbers to the gameBoard.
         int tempCount = currLvl + 2;
 
+        /* This is used to keep track of the number of tiles left for 
+         * the players to guess.
+         */
+        tilesRemaining = tempCount;
+
+        // The players strikes get reset on a new turn.
+        strikes = 0;
+
         // Increase the board size every 3 levels.
         if(currLvl % 3 == 0){
             boardSize++;
@@ -123,7 +133,7 @@ public class VisualMemory {
         }
 
         // Boolean array to keep track of the game tiles.
-        boolean[] indexArray = new boolean[boardSize*boardSize];
+        indexArray = new boolean[boardSize*boardSize];
 
         // Integer Arrays to store the locations of the numbers.
         int[] rowArray = new int[tempCount];
@@ -176,6 +186,9 @@ public class VisualMemory {
             public void run() {
                 Platform.runLater(() ->{
 
+                    /* Declare a new temporary variable because
+                     * this section of code runs after a delay.
+                     */
                     int tempCount2 = tempCount;
 
                     /* While there are not the correct number of tiles, 
@@ -243,10 +256,41 @@ public class VisualMemory {
     private void clearGameBoard() {
         for(int i=0; i<boardSize; i++){
             for(int j=0; j<boardSize; j++){
+
+                // Used to identify where the tile is placed on the board.
+                int positionIndex = i*boardSize + j;
+
                 // Create blank button for the gameBoard.
-                Button blankBtn = new Button();
+                Button blankBtn = new Button(Integer.toString(positionIndex));
                 blankBtn.setMinSize(tileSize, tileSize);
                 blankBtn.setStyle(TILEBLUE);    
+                blankBtn.setFont(Font.font("Arial", 0));
+
+                /* When a user clicks on a blank button turn it black if the 
+                 * guess is incorrect, and turn it white if the guess is
+                 * correct.
+                 */
+                blankBtn.setOnMouseClicked(e -> {
+                    
+                    // Log the player guess.
+                    playerGuess = Integer.valueOf(blankBtn.getText());
+
+                    if(indexArray[playerGuess]){
+
+                        // Decrement this counter.
+                        tilesRemaining--;
+
+                        // Remove the button, change it to white, then re-add.
+                        gameBoard.getChildren().remove(blankBtn);
+                        blankBtn.setStyle(TILEWHITE);
+                        gameBoard.getChildren().add(playerGuess, blankBtn);
+                    }
+                    else { // The guess was wrong.
+                        strikes++;
+                        
+                    }
+
+                });
 
                 gameBoard.add(blankBtn, j, i);
             }
