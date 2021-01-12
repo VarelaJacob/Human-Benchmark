@@ -71,7 +71,7 @@ public class MainGameLoop extends Application {
             scroll.setVvalue(scroll.getVvalue() - deltaY);
         });
 
-        Scene scene = new Scene(new BorderPane(scroll), 1600, 900);
+        Scene scene = new Scene(new BorderPane(scroll), 1000, 900);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();        
