@@ -90,7 +90,7 @@ public class NumberMemory {
         // Begin playing the game when the start button is clicked.
         startTestBtn.setOnMouseClicked( ( e ) -> {
             this.currentScore = 1;
-            magicNum = Math.abs(rand.nextLong());
+            magicNum = 1 + Math.abs(rand.nextLong());
 
             flashNumber();           
 
