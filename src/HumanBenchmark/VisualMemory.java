@@ -215,7 +215,7 @@ public class VisualMemory {
                             Button whiteBtn = new Button();
                             whiteBtn.setMinSize(tileSize, tileSize);
                             whiteBtn.setStyle(TILEWHITE);
-
+                           
                             // Add the tile to the gameBoard
                             gameBoard.add(whiteBtn, randCol, randRow);
 
@@ -290,6 +290,15 @@ public class VisualMemory {
                         // Remove the button, change it to white, then re-add.
                         gameBoard.getChildren().remove(blankBtn);
                         blankBtn.setStyle(TILEWHITE);
+
+                        /* Remove the mouse click event to prevent 
+                        * getting additional strikes due to double 
+                        * clicks. 
+                        */
+                        blankBtn.setOnMouseClicked(ev ->{
+                            // Do Nothing.
+                        });
+
                         gameBoard.getChildren().add(playerGuess, blankBtn);
                     }
                     else { // The guess was wrong.
@@ -309,6 +318,15 @@ public class VisualMemory {
                             * board, change it to black, then re-add.
                             */
                             blankBtn.setStyle(TILEBLACK);
+                            
+                            /* Remove the mouse click event to prevent 
+                             * getting additional strikes due to double 
+                             * clicks. 
+                             */
+                            blankBtn.setOnMouseClicked(ev ->{
+                                // Do Nothing.
+                            });
+
                             gameBoard.getChildren().add(playerGuess, blankBtn);
                         }
                     }
