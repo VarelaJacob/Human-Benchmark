@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -152,7 +153,19 @@ public class VisualMemory {
 
         // Initialize the gameBoard with blank tiles.
         clearGameBoard();
-    
+
+        // Update labels to show the current level and lives left.
+        mainLabel.setText("Level: " + Integer.toString(currLvl) + "   ");
+        mainLabel.setFont(Font.font("Arial", 25));
+        subLabel1.setText("Lives: " + Integer.toString(currLives));
+        subLabel1.setFont(Font.font("Arial", 25));
+
+        // Create HBox to store the two labels.
+        HBox turnHBox = new HBox();
+        turnHBox.setPadding(new Insets(10, 10, 10, 10));
+        turnHBox.getChildren().addAll(mainLabel, subLabel1);
+        turnHBox.setAlignment(Pos.CENTER);
+        
         /* Begin the timer used to display the white tiles
          * after a small delay. 
          */
@@ -219,7 +232,7 @@ public class VisualMemory {
 
         // Clear the vbox and show the new screen.
         vboxDefault.getChildren().clear();
-        vboxDefault.getChildren().addAll(gameBoard);
+        vboxDefault.getChildren().addAll(turnHBox, gameBoard);
 
     }
 
