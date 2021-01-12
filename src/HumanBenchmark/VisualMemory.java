@@ -127,12 +127,6 @@ public class VisualMemory {
         // The players strikes get reset on a new turn.
         strikes = 0;
 
-        // Increase the board size every 3 levels.
-        if(currLvl % 3 == 0){
-            boardSize++;
-            tileSize -= 25;
-        }
-
         // Boolean array to keep track of the game tiles.
         indexArray = new boolean[boardSize*boardSize];
 
@@ -284,22 +278,24 @@ public class VisualMemory {
                         
                         // End the turn if there are no tiles left.
                         if(tilesRemaining == 0){
+                            gameBoard.getChildren().remove(blankBtn);  
                             endTurn();
                         }
+                        else{
+                            // Remove the button, change it to white, then re-add.
+                            gameBoard.getChildren().remove(blankBtn);
+                            blankBtn.setStyle(TILEWHITE);
 
-                        // Remove the button, change it to white, then re-add.
-                        gameBoard.getChildren().remove(blankBtn);
-                        blankBtn.setStyle(TILEWHITE);
+                            /* Remove the mouse click event to prevent 
+                            * getting additional strikes due to double 
+                            * clicks. 
+                            */
+                            blankBtn.setOnMouseClicked(ev ->{
+                                // Do Nothing.
+                            });
 
-                        /* Remove the mouse click event to prevent 
-                        * getting additional strikes due to double 
-                        * clicks. 
-                        */
-                        blankBtn.setOnMouseClicked(ev ->{
-                            // Do Nothing.
-                        });
-
-                        gameBoard.getChildren().add(playerGuess, blankBtn);
+                            gameBoard.getChildren().add(playerGuess, blankBtn);
+                        }
                     }
                     else { // The guess was wrong.
                         strikes++;
@@ -366,6 +362,13 @@ public class VisualMemory {
         }
         else { // The player moves onto the next level.
             currLvl++;
+
+            // Increase the board size every 3 levels.
+            if(currLvl % 3 == 0){
+                boardSize++;
+                tileSize -= 20;
+            }
+            
             takeTurn();
         }
     }
