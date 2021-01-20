@@ -1,5 +1,8 @@
 package HumanBenchmark;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,9 +23,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 /**
- * This is the main class for this project. This class will create the
- * main front end GUI and will change what game is displayed based on
- * the game clicked on by the user.
+ * This is the main class for this project. This class will create the main
+ * front end GUI and will change what game is displayed based on the game
+ * clicked on by the user.
  * 
  * @author Jacob Varela
  */
@@ -40,20 +43,18 @@ public class MainGameLoop extends Application {
     Button homeBtn;
 
     // Used for setting the background colors of some gui elements.
-    String BACKGROUNDBLUE  = "-fx-background-color: #2b86d1";
-    String BACKGROUNDGRAY  = "-fx-background-color: #e6e8f4";
+    String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
+    String BACKGROUNDGRAY = "-fx-background-color: #e6e8f4";
     String BACKGROUNDWHITE = "-fx-background-color: #FF0000";
 
     // Used to set the speed of Scrolling on the ScrollPane
     final double SPEED = 0.01;
 
     /**
-     * Creates the primaryStage to hold the GUI elements.
-     * Creates a BorderPane to separate and organize the display.
-     * Places the BorderPane within a ScrollPane to allow for smooth
-     * scrolling functionality.
-     * Adds the ScrollPane to the Scene, and display the GUI
-     * (automativally maximized to the screen).
+     * Creates the primaryStage to hold the GUI elements. Creates a BorderPane to
+     * separate and organize the display. Places the BorderPane within a ScrollPane
+     * to allow for smooth scrolling functionality. Adds the ScrollPane to the
+     * Scene, and display the GUI (automativally maximized to the screen).
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -74,14 +75,14 @@ public class MainGameLoop extends Application {
         Scene scene = new Scene(new BorderPane(scroll), 1000, 900);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
-        primaryStage.show();        
+        primaryStage.show();
 
     }
 
     /**
-     * This method creates it's own instances of each game. It also sets
-     * up the main organization and formatting for the BorderPane to 
-     * create a simple and intuative user-friendly interface.
+     * This method creates it's own instances of each game. It also sets up the main
+     * organization and formatting for the BorderPane to create a simple and
+     * intuative user-friendly interface.
      * 
      * @return borderpane mimics look of humanbenchmark.com
      */
@@ -90,6 +91,20 @@ public class MainGameLoop extends Application {
         // Initialze highScore count for each game.
         Score highScores = new Score();
         highScores.initializeScores();
+
+        HighScores scoreDB = new HighScores();
+        ResultSet scores;
+        try {
+            scores = scoreDB.displayScores();
+            while( scores.next()){
+                System.out.println(scores.getString("name") +
+                " "+scores.getLong("highScore"));
+            }
+        } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
 
         // Create new BorderPane.
         BorderPane border = new BorderPane();

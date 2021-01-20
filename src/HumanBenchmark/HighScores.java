@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * 
+ * This is the class that stores all the high score
+ * values obtained by the user in each game they've played.
+ * @author Jacob Varela
  */
 public class HighScores {
 
