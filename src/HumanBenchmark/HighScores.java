@@ -65,6 +65,19 @@ public class HighScores {
             ResultSet scores = state.executeQuery(
                 "SELECT scores FROM sqlite master WHERE type = 'table' " + 
                 "AND name ='game'");
+
+            /* if Nothing is found initialize initial high score table
+             * and initialize all values to zero.
+             */
+            if ( !scores.next() ) {
+               
+                // Build the table
+                Statement state2 = connection.createStatement();
+                state2.execute("CREATE TABLE game(gameName varchar(10), "+
+                " score long, primary key(gameName));");
+
+                
+            }
         }
     }
 }
