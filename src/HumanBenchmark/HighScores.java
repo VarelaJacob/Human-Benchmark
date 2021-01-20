@@ -1,6 +1,7 @@
 package HumanBenchmark;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -29,5 +30,17 @@ public class HighScores {
         ResultSet scores = state.executeQuery("SELECT score FROM game");
 
         return scores;
+    }
+
+    /** */
+    private void getConnection() {
+
+        Class.forName("org.sqlite.JDBC");
+
+        // set Connection to the appropriate directory.
+        connection = DriverManager.getConnection("jdbc:sqlite:HighScores.db");
+
+        // Internal method to initialize the db.
+        initialize();
     }
 }
