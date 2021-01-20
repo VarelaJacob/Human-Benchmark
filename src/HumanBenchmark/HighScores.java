@@ -51,7 +51,20 @@ public class HighScores {
         initialize();
     }
 
-    /** */
-    private void initialize() {
+    /**
+     * @throws SQLException
+     */
+    private void initialize() throws SQLException {
+
+        if( !hasData ) {
+
+            hasData = true;
+
+            Statement state = connection.createStatement();
+            
+            ResultSet scores = state.executeQuery(
+                "SELECT scores FROM sqlite master WHERE type = 'table' " + 
+                "AND name ='game'");
+        }
     }
 }
