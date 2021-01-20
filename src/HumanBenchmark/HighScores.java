@@ -53,6 +53,9 @@ public class HighScores {
     }
 
     /**
+     * If there is no data in the database then initialize
+     * a new game TABLE and populate that table with each game name
+     * and set the high score to 0. 
      * @throws SQLException
      */
     private void initialize() throws SQLException {
@@ -119,6 +122,7 @@ public class HighScores {
                 prep6.setLong  (2, 0);
                 prep6.execute();               
             }
+
         }
     }
 }
