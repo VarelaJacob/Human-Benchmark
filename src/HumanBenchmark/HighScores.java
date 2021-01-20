@@ -1,6 +1,7 @@
 package HumanBenchmark;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ public class HighScores {
 
         Statement state = connection.createStatement();
 
-        ResultSet scores = state.executeQuery("SELECT score FROM game");
+        ResultSet scores = state.executeQuery("SELECT name, highScore FROM game");
 
         return scores;
     }
@@ -66,12 +67,10 @@ public class HighScores {
         if( !hasData ) {
 
             hasData = true;
+           
+            DatabaseMetaData md = connection.getMetaData();
 
-            Statement state = connection.createStatement();
-            
-            ResultSet scores = state.executeQuery(
-                "SELECT scores FROM sqlite master WHERE type = 'table' " + 
-                "AND name ='game'");
+            ResultSet scores = md.getTables(null, null, "game", null);
 
             /* if Nothing is found initialize initial high score table
              * and initialize all values to zero.
