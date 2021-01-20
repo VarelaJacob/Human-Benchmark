@@ -3,6 +3,7 @@ package HumanBenchmark;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -13,15 +14,18 @@ public class HighScores {
     // Handles connection to the db.
     public static Connection connection;
     public static boolean hasData = false;
-    
-    /**
-     * This method will display the currently recorded high scores for
-     * each of the games.
-     * @return a ResultSet containing the high scores from each game.
-     */
-    public ResultSet displayScores() {
 
-        if(connection == null){
+    /**
+     * This method will display the currently recorded high scores for each of the
+     * games.
+     * 
+     * @return a ResultSet containing the high scores from each game.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public ResultSet displayScores() throws ClassNotFoundException, SQLException {
+
+        if (connection == null) {
             getConnection();
         }
 
@@ -32,8 +36,11 @@ public class HighScores {
         return scores;
     }
 
-    /** */
-    private void getConnection() {
+    /**
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    private void getConnection() throws ClassNotFoundException, SQLException {
 
         Class.forName("org.sqlite.JDBC");
 
@@ -42,5 +49,9 @@ public class HighScores {
 
         // Internal method to initialize the db.
         initialize();
+    }
+
+    /** */
+    private void initialize() {
     }
 }
