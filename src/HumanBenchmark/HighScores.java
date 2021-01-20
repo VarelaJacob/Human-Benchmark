@@ -38,6 +38,7 @@ public class HighScores {
     }
 
     /**
+     * Get the current connection to the database.
      * @throws ClassNotFoundException
      * @throws SQLException
      */
@@ -124,5 +125,26 @@ public class HighScores {
             }
 
         }
+    }
+
+    /**
+     * This method will add a new entry into the game TABLE and automatically
+     * sets the high score to a value of 0.
+     * @param name The name of the new game being added.
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public void addGame(String name) throws ClassNotFoundException, SQLException {
+
+        if( connection == null){
+            getConnection();
+        }
+
+        // Initialize new game with a high score of 0.
+        PreparedStatement prep = connection.prepareStatement(
+            "INSERT INTO game values(?,?);");
+        prep.setString(1, name);
+        prep.setLong  (2, 0);
+        prep.execute();
     }
 }
