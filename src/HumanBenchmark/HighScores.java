@@ -56,6 +56,14 @@ public class HighScores {
         initialize();
     }
 
+    public Connection peekConnection() throws ClassNotFoundException, SQLException {
+        if (connection == null) {
+            getConnection();
+        }
+
+        return connection;
+    }
+
     /**
      * If there is no data in the database then initialize
      * a new game TABLE and populate that table with each game name
@@ -79,7 +87,7 @@ public class HighScores {
                
                 // Build the table
                 Statement state2 = connection.createStatement();
-                state2.execute("CREATE TABLE game(" 
+                state2.executeUpdate("CREATE TABLE game(" 
                 + "name varchar(15), highScore long, primary key(name));");
 
                 // Initialize AimTrainer High Score to zero.
@@ -87,44 +95,56 @@ public class HighScores {
                     "INSERT INTO game values(?, ?);");
                 prep.setString(1, "AimTrainer");
                 prep.setLong  (2, 0);
-                prep.execute();
+                prep.executeUpdate();
 
                 // Initialize ChimpTest High Score to zero.
                 PreparedStatement prep2 = connection.prepareStatement(
                     "INSERT INTO game values(?, ?);");
                 prep2.setString(1, "ChimpTest");
                 prep2.setLong  (2, 0);
-                prep2.execute();
+                prep2.executeUpdate();
 
                 // Initialize NumberMemory High Score to zero.
                 PreparedStatement prep3 = connection.prepareStatement(
                     "INSERT INTO game values(?, ?);");
                 prep3.setString(1, "NumberMemory");
                 prep3.setLong  (2, 0);
-                prep3.execute();
+                prep3.executeUpdate();
 
                 // Initialize ReactionTest High Score to zero.
                 PreparedStatement prep4 = connection.prepareStatement(
                     "INSERT INTO game values(?, ?);");
                 prep4.setString(1, "ReactionTest");
                 prep4.setLong  (2, 0);
-                prep4.execute();
+                prep4.executeUpdate();
 
                 // Initialize VerbalMemory High Score to zero.
                 PreparedStatement prep5 = connection.prepareStatement(
                     "INSERT INTO game values(?, ?);");
                 prep5.setString(1, "VerbalMemory");
                 prep5.setLong  (2, 0);
-                prep5.execute();
+                prep5.executeUpdate();
 
                 // Initialize VisualMemory High Score to zero.
                 PreparedStatement prep6 = connection.prepareStatement(
                     "INSERT INTO game values(?, ?);");
                 prep6.setString(1, "VisualMemory");
                 prep6.setLong  (2, 0);
-                prep6.execute();               
+                prep6.executeUpdate();               
             }
 
+        }
+    }
+
+    public void updateScore(Connection connection, String name, long newScore){
+        String sql = "UPDATE game SET highScore = ? WHERE name = ?";
+
+        try(PreparedStatement prep = connection.prepareStatement(sql)){
+            prep.setString(1, name);
+            prep.setLong(2, newScore);
+            prep.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
         }
     }
 
@@ -146,6 +166,6 @@ public class HighScores {
             "INSERT INTO game values(?,?);");
         prep.setString(1, name);
         prep.setLong  (2, 0);
-        prep.execute();
+        prep.executeUpdate();
     }
 }

@@ -1,5 +1,8 @@
 package HumanBenchmark;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.application.Application;
@@ -86,10 +89,6 @@ public class MainGameLoop extends Application {
      * @return borderpane mimics look of humanbenchmark.com
      */
     private BorderPane createBorderPane() {
-
-        // Initialze highScore count for each game.
-        Score highScores = new Score();
-        highScores.initializeScores();
 
         HighScores scoreDB = new HighScores();
         ResultSet scores;
@@ -180,12 +179,61 @@ public class MainGameLoop extends Application {
             public void handle(ActionEvent event) {
                 border.setCenter(vboxDefault);
 
-                highScores.setReactionScore(reactionGame.getHighScore());
-                highScores.setAimScore(aimTrainer.getHighScore());
-                highScores.setChimpScore(chimpTest.getHighScore());
-                highScores.setVisualScore(visualMemory.getHighScore());
-                highScores.setNumMemScore(numberMemory.getHighScore());
-                highScores.setVerbScore(verbalMemory.getHighScore());
+                
+                try {                    
+                    // Update AimTrainer High Score value in the db.
+                    PreparedStatement prep = HighScores.connection.prepareStatement(
+                        "UPDATE game SET highScore = ? WHERE name = ?");
+                    prep.setLong  (1, aimTrainer.getHighScore());
+                    prep.setString(2, "AimTrainer");
+                    prep.executeUpdate();
+
+                    // Update ChimpTest High Score in the db.
+                    PreparedStatement prep2 = HighScores.connection.prepareStatement(
+                        "UPDATE game SET highScore = ? WHERE name = ?");
+                    prep2.setLong  (1, chimpTest.getHighScore());
+                    prep2.setString(2, "ChimpTest");
+                    prep2.executeUpdate();
+
+                    // Update NumberMemory High Score in the db.
+                    PreparedStatement prep3 = HighScores.connection.prepareStatement(
+                        "UPDATE game SET highScore = ? WHERE name = ?");
+                    prep3.setLong  (1, numberMemory.getHighScore());
+                    prep3.setString(2, "NumberMemory");
+                    prep3.executeUpdate();
+
+                    // Update ReactionTest High Score in the db.
+                    PreparedStatement prep4 = HighScores.connection.prepareStatement(
+                        "UPDATE game SET highScore = ? WHERE name = ?");
+                    prep4.setLong  (1, reactionGame.getHighScore());
+                    prep4.setString(2, "ReactionTest");
+                    prep4.executeUpdate();
+
+                    // Update VerbalMemory High Score in the db.
+                    PreparedStatement prep5 = HighScores.connection.prepareStatement(
+                        "UPDATE game SET highScore = ? WHERE name = ?");
+                    prep5.setLong  (1, verbalMemory.getHighScore());
+                    prep5.setString(2, "VerbalMemory");
+                    prep5.executeUpdate();
+
+                    // Update VisualMemory High Score in the db.
+                    PreparedStatement prep6 = HighScores.connection.prepareStatement(
+                        "UPDATE game SET highScore = ? WHERE name = ?");
+                    prep6.setLong  (1, visualMemory.getHighScore());
+                    prep6.setString(2, "VisualMemory");
+                    prep6.executeUpdate();
+
+                    ResultSet scoresTemp;
+                    scoresTemp = scoreDB.displayScores();
+                    while( scoresTemp.next()){
+                        System.out.println(scoresTemp.getString("name") +
+                        " "+ scoresTemp.getLong("highScore"));
+                    }
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
