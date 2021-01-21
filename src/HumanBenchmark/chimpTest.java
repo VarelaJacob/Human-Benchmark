@@ -27,7 +27,8 @@ public class chimpTest {
     // Global variables.
     private final String BORDERHIGHLIGHT = "-fx-border-color: yellow;-fx-border-width: 10; -fx-background-color: #FFFFFF";
     private final String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
-    private int highScore, numCount, tempCount, strikes;
+    private int numCount, tempCount, strikes;
+    private long highScore;
     private String playerGuess;
     private Labeled mainLabel, subLabel1, subLabel2, scoreLabel;
     private Button newLevelBtn;
@@ -364,8 +365,15 @@ public class chimpTest {
     /**
      * @return return this game's highest score values so far.
      */
-    public int getHighScore(){
+    public long getHighScore(){
         return highScore;
+    }
+
+    /**
+     * Set a new high score value for this object.
+     */
+    public void setHighScore( long newVal) {
+        highScore = newVal;
     }
 
      /**
@@ -377,8 +385,6 @@ public class chimpTest {
      * @return This game's vbox to be used on the homescreen.
      */
     public VBox createVBox() {
-
-        this.highScore = 0;
 
         ImageView iconView = new ImageView( new Image("file:resources/chimpIcon.png"));
 

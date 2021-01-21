@@ -32,7 +32,7 @@ public class NumberMemory {
     private final String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
     private final String BACKGROUNDYELLOW = "-fx-background-color: #ffd154";
     private long magicNum, currentNum;
-    private int highScore, currentScore;
+    private long highScore, currentScore;
     private Random rand = new Random();
     private Label scoreLabel, subLabel1, subLabel2, mainLabel;
     private Button startTestBtn;
@@ -229,8 +229,15 @@ public class NumberMemory {
     /**
      * @return return this game's highest score values so far.
      */
-    public int getHighScore() {
+    public long getHighScore() {
         return highScore;
+    }
+
+    /**
+     * Set a new high score value for this object.
+     */
+    public void setHighScore( long newVal) {
+        highScore = newVal;
     }
 
     /**
@@ -242,8 +249,6 @@ public class NumberMemory {
      * @return This game's vbox to be used on the homescreen.
      */
     public VBox createVBox() {
-
-        this.highScore = 0;
 
         ImageView iconView = new ImageView( new Image("file:resources/numberIcon.png"));
 

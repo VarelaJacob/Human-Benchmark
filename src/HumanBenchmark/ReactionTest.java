@@ -205,6 +205,13 @@ public class ReactionTest {
     }
 
     /**
+     * Set a new high score value for this object.
+     */
+    public void setHighScore( long newVal) {
+        highScore = newVal;
+    }
+    
+    /**
      * This method creates a Vbox to be used on the bottom of the main screen.
      * This VBox will contain an icon representing the game, a label identifying
      * which game it is, as well as a quick description. A user can click on this
@@ -213,9 +220,6 @@ public class ReactionTest {
      * @return This game's vbox to be used on the homescreen.
      */
     public VBox createVBox() {
-
-        // Initialize highScore.
-        this.highScore = 0;
 
         // Lightning bolt icon.
         ImageView iconView = new ImageView( new Image("file:resources/reactionIcon.png"));

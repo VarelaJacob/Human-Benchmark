@@ -39,7 +39,8 @@ public class VisualMemory {
     private final String TILEBLUE  = "-fx-background-color: #000795;"+
                                      "-fx-background-radius: 15px";
     private final int SLEEPTIME = 1000; // milliseconds
-    private int highScore, currLvl, currLives;
+    private int currLvl, currLives;
+    private long highScore;
     private int tileSize, boardSize, strikes, playerGuess, tilesRemaining;
     private Random rand = new Random();
     private GridPane gameBoard;
@@ -376,8 +377,15 @@ public class VisualMemory {
     /**
      * @return return this game's highest score values so far.
      */
-    public int getHighScore(){
+    public long getHighScore(){
         return highScore;
+    }
+
+    /**
+     * Set a new high score value for this object.
+     */
+    public void setHighScore( long newVal) {
+        highScore = newVal;
     }
 
     /**
@@ -403,8 +411,6 @@ public class VisualMemory {
      * @return This game's vbox to be used on the homescreen.
      */
     public VBox createVBox() {
-
-        this.highScore = 0;
 
         ImageView iconView = new ImageView( new Image("file:resources/chimpIcon.png"));
 

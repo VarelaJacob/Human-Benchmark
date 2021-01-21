@@ -178,6 +178,13 @@ public class AimTrainer {
     }
 
     /**
+     * Set a new high score value for this object.
+     */
+    public void setHighScore( long newVal) {
+        highScore = newVal;
+    }
+    
+    /**
      * This method will look at the current global variables
      * in the game being played and will update this game's 
      * high score value if a lower reaction time has been achieved.
@@ -200,8 +207,6 @@ public class AimTrainer {
      * @return This game's vbox to be used on the homescreen.
      */
     public VBox createVBox() {
-
-        this.highScore = 0;
 
         ImageView iconView = new ImageView( new Image("file:resources/aimIcon.png"));
 

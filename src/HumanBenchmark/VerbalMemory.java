@@ -35,7 +35,8 @@ public class VerbalMemory {
     private final String BORDERHIGHLIGHT = "-fx-border-color: yellow;-fx-border-width: 10; -fx-background-color: #FFFFFF";
     private final String BACKGROUNDBLUE = "-fx-background-color: #2b86d1";
     private final String BACKGROUNDYELLOW = "-fx-background-color: #ffd154";
-    private int highScore, lives, randIndex, currentScore;
+    private int lives, randIndex;
+    private long highScore, currentScore;
     private ArrayList<String> wordBank = new ArrayList<>();
     private HBox statBox, gameBtnsBox;
     private VBox vboxDefault;
@@ -215,7 +216,7 @@ public class VerbalMemory {
      * @param score Updates the current score value.
      * @param lives Updates the number of lives remaining.
      */
-    private void update(int score, int lives) {
+    private void update(long score, int lives) {
 
         if(highScore == 0 ){
             this.highScore = score; 
@@ -293,8 +294,15 @@ public class VerbalMemory {
     /**
      * @return return this game's highest score values so far.
      */
-    public int getHighScore() {
+    public long getHighScore() {
         return highScore;
+    }
+    
+    /**
+     * Set a new high score value for this object.
+     */
+    public void setHighScore( long newVal) {
+        highScore = newVal;
     }
 
     /**
@@ -306,8 +314,6 @@ public class VerbalMemory {
      * @return This game's vbox to be used on the homescreen.
      */
     public VBox createVBox() {
-
-        this.highScore = 0;
 
         ImageView iconView = new ImageView( new Image("file:resources/verbalIcon.png"));
 

@@ -1,7 +1,5 @@
 package HumanBenchmark;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -91,7 +89,7 @@ public class MainGameLoop extends Application {
 
     /** */
     public void setHighScores(){
-        aimTrainer.set
+        
     }
 
     /**
