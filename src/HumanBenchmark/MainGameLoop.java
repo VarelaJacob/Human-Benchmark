@@ -49,6 +49,14 @@ public class MainGameLoop extends Application {
     String BACKGROUNDGRAY = "-fx-background-color: #e6e8f4";
     String BACKGROUNDWHITE = "-fx-background-color: #FF0000";
 
+    // Create instances of each game.
+    ReactionTest reactionGame = new ReactionTest();
+    AimTrainer   aimTrainer   = new AimTrainer();
+    chimpTest    chimpTest    = new chimpTest();
+    VisualMemory visualMemory = new VisualMemory();
+    NumberMemory numberMemory = new NumberMemory();
+    VerbalMemory verbalMemory = new VerbalMemory();
+
     // Used to set the speed of Scrolling on the ScrollPane
     final double SPEED = 0.01;
 
@@ -81,6 +89,59 @@ public class MainGameLoop extends Application {
 
     }
 
+    /** */
+    public void setHighScores(){
+        aimTrainer.set
+    }
+
+    /**
+     * 
+     * @throws SQLException
+     */
+    private void updateHighScores() throws SQLException {
+        // Update AimTrainer High Score value in the db.
+            PreparedStatement prep = HighScores.connection.prepareStatement(
+                "UPDATE game SET highScore = ? WHERE name = ?");
+            prep.setLong  (1, aimTrainer.getHighScore());
+            prep.setString(2, "AimTrainer");
+            prep.executeUpdate();
+
+            // Update ChimpTest High Score in the db.
+            PreparedStatement prep2 = HighScores.connection.prepareStatement(
+                "UPDATE game SET highScore = ? WHERE name = ?");
+            prep2.setLong  (1, chimpTest.getHighScore());
+            prep2.setString(2, "ChimpTest");
+            prep2.executeUpdate();
+
+            // Update NumberMemory High Score in the db.
+            PreparedStatement prep3 = HighScores.connection.prepareStatement(
+                "UPDATE game SET highScore = ? WHERE name = ?");
+            prep3.setLong  (1, numberMemory.getHighScore());
+            prep3.setString(2, "NumberMemory");
+            prep3.executeUpdate();
+
+            // Update ReactionTest High Score in the db.
+            PreparedStatement prep4 = HighScores.connection.prepareStatement(
+                "UPDATE game SET highScore = ? WHERE name = ?");
+            prep4.setLong  (1, reactionGame.getHighScore());
+            prep4.setString(2, "ReactionTest");
+            prep4.executeUpdate();
+
+            // Update VerbalMemory High Score in the db.
+            PreparedStatement prep5 = HighScores.connection.prepareStatement(
+                "UPDATE game SET highScore = ? WHERE name = ?");
+            prep5.setLong  (1, verbalMemory.getHighScore());
+            prep5.setString(2, "VerbalMemory");
+            prep5.executeUpdate();
+
+            // Update VisualMemory High Score in the db.
+            PreparedStatement prep6 = HighScores.connection.prepareStatement(
+                "UPDATE game SET highScore = ? WHERE name = ?");
+            prep6.setLong  (1, visualMemory.getHighScore());
+            prep6.setString(2, "VisualMemory");
+            prep6.executeUpdate();
+    }
+
     /**
      * This method creates it's own instances of each game. It also sets up the main
      * organization and formatting for the BorderPane to create a simple and
@@ -109,14 +170,6 @@ public class MainGameLoop extends Application {
        
         // Create a variable to use the lightning bolt icon used on the homepage.
         ImageView iconView = new ImageView( new Image("file:resources/humanBenchmarkicon.png"));
-
-        // Create instances of each game.
-        ReactionTest reactionGame = new ReactionTest();
-        AimTrainer   aimTrainer   = new AimTrainer();
-        chimpTest    chimpTest    = new chimpTest();
-        VisualMemory visualMemory = new VisualMemory();
-        NumberMemory numberMemory = new NumberMemory();
-        VerbalMemory verbalMemory = new VerbalMemory();
 
         // Homepage title label.
         Label mainLabel = new Label("Human Benchmark");
@@ -181,47 +234,8 @@ public class MainGameLoop extends Application {
 
                 
                 try {                    
-                    // Update AimTrainer High Score value in the db.
-                    PreparedStatement prep = HighScores.connection.prepareStatement(
-                        "UPDATE game SET highScore = ? WHERE name = ?");
-                    prep.setLong  (1, aimTrainer.getHighScore());
-                    prep.setString(2, "AimTrainer");
-                    prep.executeUpdate();
-
-                    // Update ChimpTest High Score in the db.
-                    PreparedStatement prep2 = HighScores.connection.prepareStatement(
-                        "UPDATE game SET highScore = ? WHERE name = ?");
-                    prep2.setLong  (1, chimpTest.getHighScore());
-                    prep2.setString(2, "ChimpTest");
-                    prep2.executeUpdate();
-
-                    // Update NumberMemory High Score in the db.
-                    PreparedStatement prep3 = HighScores.connection.prepareStatement(
-                        "UPDATE game SET highScore = ? WHERE name = ?");
-                    prep3.setLong  (1, numberMemory.getHighScore());
-                    prep3.setString(2, "NumberMemory");
-                    prep3.executeUpdate();
-
-                    // Update ReactionTest High Score in the db.
-                    PreparedStatement prep4 = HighScores.connection.prepareStatement(
-                        "UPDATE game SET highScore = ? WHERE name = ?");
-                    prep4.setLong  (1, reactionGame.getHighScore());
-                    prep4.setString(2, "ReactionTest");
-                    prep4.executeUpdate();
-
-                    // Update VerbalMemory High Score in the db.
-                    PreparedStatement prep5 = HighScores.connection.prepareStatement(
-                        "UPDATE game SET highScore = ? WHERE name = ?");
-                    prep5.setLong  (1, verbalMemory.getHighScore());
-                    prep5.setString(2, "VerbalMemory");
-                    prep5.executeUpdate();
-
-                    // Update VisualMemory High Score in the db.
-                    PreparedStatement prep6 = HighScores.connection.prepareStatement(
-                        "UPDATE game SET highScore = ? WHERE name = ?");
-                    prep6.setLong  (1, visualMemory.getHighScore());
-                    prep6.setString(2, "VisualMemory");
-                    prep6.executeUpdate();
+                    
+                    updateHighScores();
 
                     ResultSet scoresTemp;
                     scoresTemp = scoreDB.displayScores();
@@ -235,6 +249,8 @@ public class MainGameLoop extends Application {
                     e1.printStackTrace();
                 }
             }
+
+            
         });
 
         // Create HBox to store the home button.

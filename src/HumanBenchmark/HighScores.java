@@ -136,6 +136,12 @@ public class HighScores {
         }
     }
 
+    /**
+     * This method updates the score values in the database. 
+     * @param connection The connection to the database.
+     * @param name The name of the game being updated.
+     * @param newScore The new high score value. 
+     */
     public void updateScore(Connection connection, String name, long newScore){
         String sql = "UPDATE game SET highScore = ? WHERE name = ?";
 
