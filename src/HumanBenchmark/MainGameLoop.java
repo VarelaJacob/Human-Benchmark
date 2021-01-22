@@ -87,9 +87,64 @@ public class MainGameLoop extends Application {
 
     }
 
-    /** */
+    /**
+     * This method sets the high scores in this new execution of the 
+     * Human Benchmark loop with the high scores retrieved from the 
+     * database.
+     */
     public void setHighScores(){
         
+        HighScores scoreDB = new HighScores();
+        ResultSet scores;
+        try {
+            scores = scoreDB.displayScores();
+            while( scores.next()){
+                setGameScore(scores.getString("name"), scores.getLong("highScore"));
+            }
+        } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    /**
+     * This method uses a switch method to set a specific games 
+     * high score value based on the parameters passed in.
+     * @param name The name of the game to be updated.
+     * @param newScore The new high score.
+     */
+    private void setGameScore(String name, long newScore) {
+
+        switch (name) {
+            case "AimTrainer":
+                aimTrainer.setHighScore(newScore);                
+                break;
+            
+            case "ChimpTest":
+                chimpTest.setHighScore(newScore);
+                break;
+
+            case "NumberMemory":
+                numberMemory.setHighScore(newScore);                
+                break;
+
+            case "ReactionTest":
+                reactionGame.setHighScore(newScore);                
+                break;
+
+            case "VerbalMemory":
+                verbalMemory.setHighScore(newScore);                
+                break;
+
+            case "VisualMemory":
+                visualMemory.setHighScore(newScore);            
+                break;
+
+                    
+            default:
+                break;
+        }
     }
 
     /**
@@ -162,6 +217,8 @@ public class MainGameLoop extends Application {
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
+
+        setHighScores();
 
         // Create new BorderPane.
         BorderPane border = new BorderPane();
